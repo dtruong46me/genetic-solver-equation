@@ -28,6 +28,9 @@ def reverse_polish_notation(tokens: list) -> list:
         if token == "(":
             stack.append(token)
 
+        if token == ",":
+            output.append(stack.pop())
+
         if token == ")":
             while len(stack) != 0 and stack[-1] != '(':
                 output.append(stack.pop())

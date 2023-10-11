@@ -92,5 +92,5 @@ def evaluate(output: list, x_value):
             
             stack.append(result)
 
-    return result[0]
+    return stack[0]
 

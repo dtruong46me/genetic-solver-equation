@@ -10,7 +10,7 @@ def main():
 
     test_case1 = "(x+1)^2"
     test_case2 = "sin(x^2+1)^2"
-    test_case3 = "ln(x+1)-16^(x^2+1)"
+    test_case3 = "log((x+1), 2)-16^(x^2+1)"
 
     tokens1 = tokenize(test_case1)
     tokens2 = tokenize(test_case2)

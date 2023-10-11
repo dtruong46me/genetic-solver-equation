@@ -1,67 +1,81 @@
 
 import math
 
-def evaluate(output: list, x_value):
 
+def is_numeric(token):
+    try:
+        float(token)
+        return True
+    
+    except ValueError:
+        return False
+    
+def perform_operation(a, b, operator: str):
+    if operator == '+':
+        return a + b
+    
+    if operator == '-':
+        return a - b
+    
+    if operator == '*':
+        return a * b
+    
+    if operator == '/':
+        if b == 0:
+            raise ValueError("Division by Zero")
+        return a / b
+    
+    if operator == '**' or operator == '^':
+        return a ** b
+    
+
+def perform_trigonometric_function(a, function: str):
+    if function == 'sin':
+        return math.sin(a)
+    
+    if function == 'cos':
+        return math.cos(a)
+    
+    if function == 'tan':
+        return math.tan(a)
+    
+    if function == 'cot':
+        return 1 / math.tan(a)
+    
+
+def perform_logarit_function(a, function):
+    if function == 'log':
+        return math.log10(a)
+    
+    if function == 'ln':
+        return math.log(a, math.e)
+
+# Evaluation function
+def evaluate(output: list, x_value):
     stack = []
     
     for e in output:
-        
         assert isinstance(e, str)
-
         if e == 'x':
             stack.append(x_value)
         
-        if e.isdigit():
-            stack.append(e)
+        if is_numeric(token=e):
+            stack.append(float(e))
 
         # Basic Operation
-        if e in "+-/^**":
-            a = float(stack.pop())
+        if e in "+-*/**":
             b = float(stack.pop())
+            a = float(stack.pop())
 
-            if e == '+':
-                c = b + a
-            
-            if e == '-':
-                c = b - a
-            
-            if e == '*':
-                c = b * a
-            
-            if e == '/':
-                try:
-                    c = b / a
-                except:
-                    print("Cannot divide 0!")
-            
-            if e == '**' or e == '^':
-                c = b ** a
-            
-            stack.append(c)
+            result = perform_operation(a, b, operator=e)
+            stack.append(result)
 
         # Trigonometric function
         if e in ('sin', 'cos', 'tan', 'cot'):
             a = float(stack.pop())
 
-            if e == 'sin':
-                c = math.sin(a)
-            
-            if e == 'cos':
-                c = math.cos(a)
-            
-            if e == 'tan':
-                c = math.tan(a)
-            
-            if e == 'cot':
-                try:
-                    c = 1 / math.tan(a)
-                except:
-                    print("Cannot divide 0!")
-            
-            stack.append(c)
-
-            # print("stack:", stack)
+            result = perform_trigonometric_function(a, function=e)
+            stack.append(result)
         
         # Logarit
         if e in ('log', 'ln'):
@@ -69,20 +83,14 @@ def evaluate(output: list, x_value):
                 base = float(stack.pop())
                 a = float(stack.pop())
 
-                c = math.log(a, base)
+                result = math.log(a, base)
             
             if len(stack) == 1:
                 a = float(stack.pop())
 
-                if e == 'log':
-                    c = math.log10(a)
-                
-                if e == 'ln':
-                    c = math.log(a, math.e)
+                result = perform_logarit_function(a, function=e)
             
-            stack.append(c)
-            # print("stack:", stack)
+            stack.append(result)
 
-    result = stack.pop()
+    return result[0]
 
-    return result

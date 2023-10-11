@@ -49,7 +49,7 @@ class TestEvaluation(unittest.TestCase):
             ("3*x + 2.5*x^2 - 7", 3*x_value[6] + 2.5 * x_value[6] ** 2 - 7),
 
             # Test case 7
-            ("x - -1 + -2", x_value[7] - -1 + -2),
+            ("x - 1 + 2", x_value[7] -1 + 2),
 
             # Test case 8
             ("x^2 * x - x*x^2", x_value[8]**2 * x_value[8] - x_value[8] * x_value[8]**2),

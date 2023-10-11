@@ -74,6 +74,8 @@ def evaluate(output: list, x_value):
             if e == 'log':
                 base = float(stack.pop())
                 a = float(stack.pop())
+                if a < 0:
+                    raise ValueError("Math Domain Error!")
 
                 result = math.log(a, base)
             

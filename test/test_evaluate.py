@@ -17,14 +17,14 @@ class TestEvaluation(unittest.TestCase):
         x_value = {
             # In Test case 1, x=2.0
             1: 2.0, 
-            2: 4.9, 
+            2: 4, 
             3: 5,
             4: 2.5,
             5: 2,
             6: 2,
             7: 2,
             8: 2,
-            9: 2,
+            9: 3,
             10: 2
         }
 
@@ -58,17 +58,19 @@ class TestEvaluation(unittest.TestCase):
             ("x*(x+1) - (x-2)*x", x_value[9] * (x_value[9] + 1) - (x_value[9] - 2) * x_value[9]),
 
             # Test case 10
-            ("((x+1)^2 - (x-2)^2)/((x+1)^2 + (x-2)^2)", ((x_value[10]**2) - (x_value[10]-2)**2) / ((x_value[10]+1)**2 + (x_value[10]-2)**2))
+            ("((x+1)^2 - (x-2)^2)/((x+1)^2 + (x-2)^2)", ((x_value[10]+1)**2 - (x_value[10]-2)**2) / ((x_value[10]+1)**2 + (x_value[10]-2)**2))
         ]
 
         i = 1
         for expression, expected_value in test_cases:
-            tokens = tokenize(expression)
-            output = reverse_polish_notation(tokens)
-            result = evaluate(output, x_value=x_value[i])
-            print(result, expected_value)
-            
-            self.assertAlmostEqual(result, expected_value, delta=0.0001)
+            with self.subTest(expression=expression, expected_value=expected_value):
+                
+                tokens = tokenize(expression)
+                output = reverse_polish_notation(tokens)
+                result = evaluate(output, x_value=x_value[i])
+                print(result==expected_value, i)
+                
+                self.assertAlmostEqual(result, expected_value, delta=0.0001)
             i += 1
     
 if __name__ == '__main__':

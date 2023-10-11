@@ -27,7 +27,6 @@ def perform_operation(a, b, operator: str):
     
     if operator == '**' or operator == '^':
         return a ** b
-    
 
 def perform_trigonometric_function(a, function: str):
     if function == 'sin':
@@ -41,14 +40,6 @@ def perform_trigonometric_function(a, function: str):
     
     if function == 'cot':
         return 1 / math.tan(a)
-    
-
-def perform_logarit_function(a, function):
-    if function == 'log':
-        return math.log10(a)
-    
-    if function == 'ln':
-        return math.log(a, math.e)
 
 # Evaluation function
 def evaluate(output: list, x_value):
@@ -56,6 +47,7 @@ def evaluate(output: list, x_value):
     
     for e in output:
         assert isinstance(e, str)
+
         if e == 'x':
             stack.append(x_value)
         
@@ -63,7 +55,7 @@ def evaluate(output: list, x_value):
             stack.append(float(e))
 
         # Basic Operation
-        if e in "+-*/**":
+        if e in "+-*/**^":
             b = float(stack.pop())
             a = float(stack.pop())
 
@@ -79,17 +71,25 @@ def evaluate(output: list, x_value):
         
         # Logarit
         if e in ('log', 'ln'):
-            if len(stack) == 2:
+            if e == 'log':
                 base = float(stack.pop())
                 a = float(stack.pop())
 
                 result = math.log(a, base)
             
-            if len(stack) == 1:
+            if e == 'ln':
                 a = float(stack.pop())
-
-                result = perform_logarit_function(a, function=e)
+                result = math.log(a, math.e)
             
+            stack.append(result)
+
+        # Square root
+        if e == 'sqrt':
+            a = float(stack.pop())
+            if a < 0:
+                raise ValueError("Square root of negative number!")
+            
+            result = math.sqrt(a)
             stack.append(result)
 
     return stack[0]

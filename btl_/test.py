@@ -1,7 +1,7 @@
 from lexer import Lexer
 from parser_ import Parser
 from interpreter import Interpreter
-from utils import *
+from utils import Utils
 
 import unittest
 import math
@@ -59,20 +59,21 @@ class TestEvaluation(unittest.TestCase):
         ]
 
         i = 1
-        for expression, expected_value in test_cases:
-            with self.subTest(expression= Utils.text_handle(expression, x_value[i]), expected_value=expected_value):
-                lexer = Lexer(expression)
+        for test_case in test_cases:
+            expressions = Utils.text_handle(test_case[0], x_value[i])
+            expected_values = test_case[1]
+            with self.subTest(expression= expressions, expected_value = expected_values):
+                lexer = Lexer(expressions)
                 tokens = lexer.generate_tokens()
                 parser = Parser(tokens)
                 tree = parser.parse()
                 interpreter = Interpreter()
                 result = interpreter.visit(tree)
-                # tokens = tokenize(expression)
-                # output = reverse_polish_notation(tokens)
-                # result = evaluate(output, x_value=x_value[i])
-                print(float(result)==expected_value, i)
+ 
+                print(result.value == expected_values, i)
                 
-                self.assertAlmostEqual(result, expected_value, delta=0.00001)
+                self.assertAlmostEqual(result.value, expected_values, delta=0.00001)
             i += 1
+
 if __name__ == '__main__':
     unittest.main()

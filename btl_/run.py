@@ -4,11 +4,7 @@ from interpreter import Interpreter
 from utils import *
 
 while True:
-    text = Utils.text_handle(input(">Enter the expression: "), float(input(">Enter value for x: ")))
-    # text = util.text_handle(input_text)
-    # if 'x' in text:
-    #     x = float(input(">Enter the value of x: "))
-    #     text = text.replace('x', str(x))
+    text = Utils.text_handle(input(">Enter the expression: "))
     try:
         if text == "":
             print("End of testing")

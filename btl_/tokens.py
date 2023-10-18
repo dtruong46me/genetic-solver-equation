@@ -21,7 +21,9 @@ class TokenType(Enum):
 	LN        = 16
 	EXP       = 17
 	E_CONST   = 18
-
+	COMMA     = 19
+	SQRT      = 20
+	
 @dataclass
 class Token:
 	type: TokenType

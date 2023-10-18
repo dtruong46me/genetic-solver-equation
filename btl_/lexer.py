@@ -1,7 +1,7 @@
 from tokens import Token, TokenType
 import string
 
-WHITESPACE = ' \n\t,'
+WHITESPACE = ' \n\t\'\"'
 DIGITS = '0123456789'
 LETTER = string.ascii_letters
 FUNCTIONS = ["sin", "cos", "tan" , "cot", "exp", "log", "abs", "exp"]
@@ -47,6 +47,9 @@ class Lexer:
 			elif self.current_char == ')':
 				self.advance()
 				yield Token(TokenType.RPAREN)
+			elif self.current_char == ',':
+				self.advance()
+				yield Token(TokenType.COMMA)
 			else:
 				raise Exception(f"Illegal character '{self.current_char}'")
 
@@ -95,6 +98,8 @@ class Lexer:
 			return Token(TokenType.EXP, str(func_str))
 		elif func_str == "e":
 			return Token(TokenType.E_CONST, str(func_str))
+		elif func_str == "sqrt":
+			return Token(TokenType.SQRT, str(func_str))
 		# token_type = TokenType.FUNC if func_str in FUNCTIONS else TokenType.VARIABLE
 		else:
 			return Token(TokenType.VARIABLE, str(func_str))

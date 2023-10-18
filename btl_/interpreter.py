@@ -1,5 +1,5 @@
 from nodes import *
-from values import Number
+from values import *
 import math
 
 CONST = {"e": math.e}
@@ -70,7 +70,14 @@ class Interpreter:
 			return Number(check_num*(-1))
 		else:
 			return Number(check_num)
-		
+	
+	def visit_SqrtNode(self, node):
+		val = self.visit(node.node).value
+		if val >= 0:
+			return Number(math.sqrt(val))
+		else:
+			raise Exception("Runtime math error")
+
 	def visit_SinNode(self,node):
 		val = self.visit(node.node).value
 		return Number(math.sin(val))
@@ -94,8 +101,12 @@ class Interpreter:
 	def visit_LnNode(self,node):
 		val = self.visit(node.node).value
 		return Number(math.log(val))
-
+	
+	def visit_CommaNode(self, node):
+		val1 = self.visit(node.node_a).value
+		val2 = self.visit(node.node_b).value
+		return (val1, val2)
+	
 	def visit_LogNode(self,node):
-		base = self.visit(node.node_a).value
-		val = self.visit(node.node_b).value
-		return Number(math.log(val) / math.log(base))
+		arg = self.visit_CommaNode(node.node)
+		return Number(math.log(arg[0], arg[1]))

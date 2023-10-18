@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Any
 
 @dataclass
 class NumberNode:
@@ -74,6 +75,13 @@ class AbsoluteValueNode:
 
 	def __repr__(self):
 		return f"abs({self.node})"
+
+@dataclass
+class SqrtNode:
+	node: any
+
+	def __repr__(self):
+		return f"sqrt({self.node})"
 	
 @dataclass
 class SinNode:
@@ -115,14 +123,20 @@ class EConstNode:
 
 	def __repr__(self):
 		return f"{self.node}"
-	
+
 @dataclass
-class LogNode:
+class CommaNode:
 	node_a: any
 	node_b: any
-	
+
+	def __reduce__(self):
+		return f"{self.node_a}, {self.node_b}"
+
+@dataclass
+class LogNode:
+	node: any
 	def __repr__(self):
-		return f"log({self.node_a}, {self.node_b})"
+		return f"log({self.node})"
 
 @dataclass
 class LnNode:

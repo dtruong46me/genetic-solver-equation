@@ -36,11 +36,7 @@ class Parser:
 			elif self.current_token.type == TokenType.MINUS:
 				self.advance()
 				result = SubtractNode(result, self.term())
-			#===============================================#
-			# elif self.current_token.type == TokenType.FUNC:
-			# 	self.advance()
-			# 	result = FuncNode(result)
-			#===============================================#
+
 		return result
 
 	def term(self):
@@ -53,11 +49,6 @@ class Parser:
 			elif self.current_token.type == TokenType.DIVIDE:
 				self.advance()
 				result = DivideNode(result, self.powered())
-			#=================================================#
-			# elif self.current_token.type == TokenType.FUNC:
-			# 	self.advance()
-			# 	result = FuncNode(result)
-			#=================================================#
 		return result
 
 	def powered(self):
@@ -72,16 +63,25 @@ class Parser:
 
 	#===================================#
 	#Testing code#
-	def loga(self):
-		result = self.factor()
+	# def loga(self):
+	# 	result = self.factor()
 
-		while self.current_token != None and self.current_token.type == TokenType.LOG:
-			self.advance()
-			result = LogNode(result, self.factor())
-		return result
+	# 	while self.current_token != None and self.current_token.type == TokenType.LOG:
+	# 		self.advance()
+	# 		result = LogNode(result, self.factor())
+	# 	return result
 	#End of testing#
 	#===================================#
 
+	
+	def loga(self):
+		result = self.factor()
+
+		while self.current_token != None and self.current_token.type == TokenType.COMMA:
+			self.advance()
+			result = CommaNode(result, self.factor())
+		return result
+	
 
 	def factor(self):
 		token = self.current_token
@@ -116,6 +116,10 @@ class Parser:
 			self.advance()
 			return AbsoluteValueNode(self.factor())
 		
+		elif token.type == TokenType.SQRT:
+			self.advance()
+			return SqrtNode(self.factor())
+
 		elif token.type == TokenType.SIN:
 			self.advance()
 			return SinNode(self.factor())
@@ -139,22 +143,11 @@ class Parser:
 		elif token.type == TokenType.LN:
 			self.advance()
 			return LnNode(self.factor())
-		# elif token.type == TokenType.LOG:
-		# 	self.advance()
-		# 	return LogNode(token, self.factor())
+		
+		elif token.type == TokenType.LOG:
+			self.advance()
+			return LogNode(self.factor())
 
-		# elif token.type == TokenType.ABS:
-		# 	self.advance()
-		# 	if token.type == TokenType.LPAREN:
-		# 		self.advance()
-		# 		result = self.expr()
-
-		# 		if self.current_token.type != TokenType.RPAREN:
-		# 			self.raise_error()
-		# 		self.advance()
-		# 		return AbsoluteValueNode(result)
-		# 	else:
-		# 		self.raise_error()
 
 		
 		self.raise_error()

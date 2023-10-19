@@ -8,7 +8,8 @@ You can find the rules for input here: [Input Syntax](#input-syntax)
 
 For example, we have an expression: 
 
-$f(x) = x^2 + log_{50}(\frac{x}{5} + \frac{1}{x}) + sin(x^2+1) - 5.5x $
+$f(x) = x^2 + log_{50}(\frac{x}{5} + \frac{1}{x}) + sin(x^2+1) - 5.5x$
+
 
 
 > The goal is to find the value of variable $x$ such that the function $f(x)$ approaches 0. Here, we find that if $x=x_0$ then $f(x_0) \approx 1.38 \times 10^{-9}$, so we can conclude $x_0$ is a solution.
@@ -33,20 +34,20 @@ $f(x) = x^2 + log_{50}(\frac{x}{5} + \frac{1}{x}) + sin(x^2+1) - 5.5x $
 |`a ^ n`, `a ** n`|`a` to the power `n`|
 |`e`|Return Euler's number (`2.7182...`)|
 |`pi`|Return PI (`3.1415...`)|
-|`sin(x: required)`|Return the sine of a number `x`|
-|`cos(x: required)`|Return the cosine of a number `x`|
-|`tan(x: required)`|Return the tangent of a number `x`|
-|`cot(x: required)`|Return the cotangent of a number `x`|
-|`log(x: required, base: optional)`|Return the logarithm of a number `x` to `base`. The default `base` is 10|
-|`arcsin(x: required)`|Return the arc sine of a number `x`|
-|`arccos(x: required)`|Return the arc cosine of a number `x`|
-|`arctan(x: required)`|Return the arc tangent of a number `x`|
-|`arccot(x: required)`|Return the arc cotangent of a number `x`|
-|`ln(x: required)`|Return the natural logarithm of a number `x`|
-|`sqrt(x: required)`|Return the square root of a number `x`|
-|`nroot(x: required, nth: required)`|Return the $n^{th}$ root of a number `x`|
+|`sin(x)`|Return the sine of a number `x`|
+|`cos(x)`|Return the cosine of a number `x`|
+|`tan(x)`|Return the tangent of a number `x`|
+|`cot(x)`|Return the cotangent of a number `x`|
+|`log(x, base: optional)`|Return the logarithm of a number `x` to `base`. The default `base` is 10|
+|`arcsin(x)`|Return the arc sine of a number `x`|
+|`arccos(x)`|Return the arc cosine of a number `x`|
+|`arctan(x)`|Return the arc tangent of a number `x`|
+|`arccot(x)`|Return the arc cotangent of a number `x`|
+|`ln(x)`|Return the natural logarithm of a number `x`|
+|`sqrt(x)`|Return the square root of a number `x`|
+|`nroot(x, nth)`|Return the $n^{th}$ root of a number `x`|
 |`abs(x)`|Return the absolute value of a number `x`|
-|`factorial(n: required)`|Return the factorial of a number `x` (equal to `n!`)|
+|`factorial(n)`|Return the factorial of a number `x` (equal to `n!`)|
 
 
 ## Genetic Algorithm

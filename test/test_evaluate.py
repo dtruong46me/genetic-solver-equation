@@ -6,8 +6,8 @@ import os
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, path)
 
-from main.input import *
-from main.evaluate import *
+from rpn.input import *
+from rpn.evaluate import *
 
 
 class TestEvaluation(unittest.TestCase):

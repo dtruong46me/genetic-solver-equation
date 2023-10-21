@@ -6,7 +6,7 @@ import os
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, path)
 
-from main.input import *
+from rpn.input import *
 
 class TestReversePolishNotation(unittest.TestCase):
     def test_reverse_polish_notation(self):

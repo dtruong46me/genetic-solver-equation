@@ -1,7 +1,13 @@
 import unittest
-from tokens import Token, TokenType
-from parser_ import Parser
-from nodes import *
+import os
+import sys
+
+path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, path)
+
+from core.tokens import Token, TokenType
+from core.parser_ import Parser
+from core.nodes import *
 
 class TestParser(unittest.TestCase):
 

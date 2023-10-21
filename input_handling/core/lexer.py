@@ -1,5 +1,10 @@
-from tokens import Token, TokenType
+from core.tokens import Token, TokenType
 import string
+import os
+import sys
+
+path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, path)
 
 WHITESPACE = ' \n\t\'\"'
 DIGITS = '0123456789'
@@ -34,12 +39,7 @@ class Lexer:
 				yield Token(TokenType.MINUS)
 			elif self.current_char == '*':
 				self.advance()
-				if self.current_char == "*":
-					self.advance()
-					yield Token(TokenType.POWER)
-				else:
-					self.advance()
-					yield Token(TokenType.MULTIPLY)
+				yield Token(TokenType.MULTIPLY)
 			elif self.current_char == '/':
 				self.advance()
 				yield Token(TokenType.DIVIDE)

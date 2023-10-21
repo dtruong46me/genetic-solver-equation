@@ -1,6 +1,11 @@
-from nodes import *
-from values import *
+from core.nodes import *
+from core.values import *
 import math
+import os
+import sys
+
+path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, path)
 
 CONST = {"e": math.e}
 class Interpreter:

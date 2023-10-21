@@ -1,11 +1,15 @@
-from lexer import Lexer
-from parser_ import Parser
-from interpreter import Interpreter
-from utils import Utils
-
 import unittest
 import math
+import os
+import sys
 
+path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, path)
+
+from core.lexer import Lexer
+from core.parser_ import Parser
+from core.interpreter import Interpreter
+from core.utils import Utils
 
 class TestEvaluation(unittest.TestCase):
     def test_evaluation(self):

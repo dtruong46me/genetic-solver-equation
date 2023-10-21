@@ -18,6 +18,9 @@ class Interpreter:
 	def visit_EConstNode(self,node):
 		return Number(math.e)
 	
+	def visit_PiNode(self, node):
+		return Number(math.pi)
+	
 	def visit_AddNode(self, node):
 		return Number(self.visit(node.node_a).value + self.visit(node.node_b).value)
 
@@ -31,7 +34,7 @@ class Interpreter:
 		try:
 			return Number(self.visit(node.node_a).value / self.visit(node.node_b).value)
 		except:
-			raise Exception("Runtime math error")
+			raise Exception("Error: Cannot divide by zero")
 		
 	def visit_PlusNode(self, node):
 		return self.visit(node.node)
@@ -51,13 +54,13 @@ class Interpreter:
 						return Number(base**pow)
 				else:
 					if base < 0:
-						raise Exception("Runtime math error")
+						raise Exception("Error: Runtime math error")
 					else:
 						return Number(base**pow)
 						
 			else:
 				if base < 0:
-					raise Exception("Runtime math error")
+					raise Exception("Error: Runtime math error")
 				else:
 					return Number(base**pow)
 		else:
@@ -76,7 +79,7 @@ class Interpreter:
 		if val >= 0:
 			return Number(math.sqrt(val))
 		else:
-			raise Exception("Runtime math error")
+			raise Exception("Error: x must be a non-negative value")
 
 	def visit_SinNode(self,node):
 		val = self.visit(node.node).value
@@ -94,6 +97,22 @@ class Interpreter:
 		val = self.visit(node.node).value
 		return Number(1 / math.tan(val))
 	
+	def visit_ArcSinNode(self, node):
+		val = self.visit(node.node).value
+		return Number(math.asin(val))
+	
+	def visit_ArcCosNode(self, node):
+		val = self.visit(node.node).value
+		return Number(math.acos(val))
+	
+	def visit_ArcTanNode(self, node):
+		val = self.visit(node.node).value
+		return Number(math.atan(val))
+	
+	def visit_ArcCotNode(self, node):
+		val = self.visit(node.node).value
+		return Number((math.pi)/2 - math.atan(val))
+	
 	def visit_ExpNode(self,node):
 		val = self.visit(node.node).value
 		return Number(math.exp(val))
@@ -108,5 +127,48 @@ class Interpreter:
 		return (val1, val2)
 	
 	def visit_LogNode(self,node):
-		arg = self.visit_CommaNode(node.node)
-		return Number(math.log(arg[0], arg[1]))
+		try:
+			arg = self.visit_CommaNode(node.node)
+			if arg[1] <=0 or arg[1] == 1:
+				raise Exception("Error: Invalid base")
+			else:
+				if arg[0] <= 0:
+					raise Exception("Error: x must be a positive number")
+				return Number(math.log(arg[0], arg[1]))
+		except AttributeError:
+			val = self.visit(node.node).value
+			if val <= 0:
+				raise Exception("Error: x must be a positive number")
+			return Number(math.log(val, 10))
+
+	def visit_FactNode(self,node):
+		val = self.visit(node.node).value
+		return Number(math.factorial(int(val)))
+
+	def visit_NrootNode(self, node):
+		try:
+			arg = self.visit_CommaNode(node.node)
+			val = arg[0]
+			root = arg[1]
+
+			if root <= 0:
+				raise Exception("Error: n must be a positive integer number")
+			else:
+				if root % 2 == 0:
+					if val < 0:
+						raise Exception("Error: Even n-th root only accept non-negative value")
+					return Number(val ** (1/root))
+
+				elif root % 2 == 1:
+					if val < 0:
+						return Number(-((-val)**(1/root)))
+					else:
+						return Number(val ** (1/root))		
+				else:
+					raise Exception("Error: n must be a positive integer number")
+				
+		except AttributeError:
+			val = self.visit(node.node).value
+			if val < 0:
+				raise Exception("Error: Even n-th root only accept non-negative value")
+			return Number(math.sqrt(val)) 

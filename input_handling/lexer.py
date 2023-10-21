@@ -34,7 +34,12 @@ class Lexer:
 				yield Token(TokenType.MINUS)
 			elif self.current_char == '*':
 				self.advance()
-				yield Token(TokenType.MULTIPLY)
+				if self.current_char == "*":
+					self.advance()
+					yield Token(TokenType.POWER)
+				else:
+					self.advance()
+					yield Token(TokenType.MULTIPLY)
 			elif self.current_char == '/':
 				self.advance()
 				yield Token(TokenType.DIVIDE)
@@ -98,8 +103,22 @@ class Lexer:
 			return Token(TokenType.EXP, str(func_str))
 		elif func_str == "e":
 			return Token(TokenType.E_CONST, str(func_str))
+		elif func_str == "pi":
+			return Token(TokenType.PI, str(func_str))
 		elif func_str == "sqrt":
 			return Token(TokenType.SQRT, str(func_str))
+		elif func_str == 'factorial':
+			return Token(TokenType.FACT, str(func_str))
+		elif func_str == 'arcsin':
+			return Token(TokenType.ARCSIN, str(func_str))
+		elif func_str == 'arccos':
+			return Token(TokenType.ARCCOS, str(func_str))
+		elif func_str == 'arctan':
+			return Token(TokenType.ARCTAN, str(func_str))
+		elif func_str == 'arccot':
+			return Token(TokenType.ARCCOT, str(func_str))
+		elif func_str == "nroot":
+			return Token(TokenType.NROOT, str(func_str))
 		# token_type = TokenType.FUNC if func_str in FUNCTIONS else TokenType.VARIABLE
 		else:
 			return Token(TokenType.VARIABLE, str(func_str))

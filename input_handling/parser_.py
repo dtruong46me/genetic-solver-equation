@@ -52,29 +52,17 @@ class Parser:
 		return result
 
 	def powered(self):
-		result = self.loga()
+		result = self.comma()
 
 		while self.current_token != None and self.current_token.type == TokenType.POWER:
 
 			self.advance()
-			result = PowerNode(result, self.loga())
+			result = PowerNode(result, self.comma())
 		
 		return result
 
-	#===================================#
-	#Testing code#
-	# def loga(self):
-	# 	result = self.factor()
-
-	# 	while self.current_token != None and self.current_token.type == TokenType.LOG:
-	# 		self.advance()
-	# 		result = LogNode(result, self.factor())
-	# 	return result
-	#End of testing#
-	#===================================#
-
 	
-	def loga(self):
+	def comma(self):
 		result = self.factor()
 
 		while self.current_token != None and self.current_token.type == TokenType.COMMA:
@@ -104,6 +92,10 @@ class Parser:
 			self.advance()
 			return EConstNode(token.value)
 		
+		elif token.type == TokenType.PI:
+			self.advance()
+			return PiNode(token.value)
+		
 		elif token.type == TokenType.PLUS:
 			self.advance()
 			return PlusNode(self.factor())
@@ -120,6 +112,10 @@ class Parser:
 			self.advance()
 			return SqrtNode(self.factor())
 
+		elif token.type == TokenType.NROOT:
+			self.advance()
+			return NrootNode(self.factor())
+		
 		elif token.type == TokenType.SIN:
 			self.advance()
 			return SinNode(self.factor())
@@ -136,6 +132,22 @@ class Parser:
 			self.advance()
 			return CotNode(self.factor())
 		
+		elif token.type == TokenType.ARCSIN:
+			self.advance()
+			return ArcSinNode(self.factor())
+
+		elif token.type == TokenType.ARCCOS:
+			self.advance()
+			return ArcCosNode(self.factor())
+		
+		elif token.type == TokenType.ARCTAN:
+			self.advance()
+			return ArcTanNode(self.factor())
+		
+		elif token.type == TokenType.ARCCOT:
+			self.advance()
+			return ArcCotNode(self.factor())
+		
 		elif token.type == TokenType.EXP:
 			self.advance()
 			return ExpNode(self.factor())
@@ -148,8 +160,9 @@ class Parser:
 			self.advance()
 			return LogNode(self.factor())
 
+		elif token.type == TokenType.FACT:
+			self.advance()
+			return FactNode(self.factor())
 
 		
 		self.raise_error()
-
-"""sin(x+ 5 - (cos(5 * 7^3)))"""

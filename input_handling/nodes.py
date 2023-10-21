@@ -110,6 +110,7 @@ class CotNode:
 
 	def __repr__(self):
 		return f"cot({self.node})"
+	
 @dataclass
 class ExpNode:
 	node: any
@@ -119,6 +120,13 @@ class ExpNode:
 
 @dataclass
 class EConstNode:
+	node: any
+
+	def __repr__(self):
+		return f"{self.node}"
+	
+@dataclass
+class PiNode:
 	node: any
 
 	def __repr__(self):
@@ -139,8 +147,49 @@ class LogNode:
 		return f"log({self.node})"
 
 @dataclass
+class FactNode:
+	node: any
+	def __repr__(self):
+		return f"factorial({self.node})"
+
+@dataclass
 class LnNode:
 	node: any
 
-	def __repr__(self) -> str:
+	def __repr__(self):
 		return f"ln({self.node})"
+
+@dataclass
+class ArcSinNode:
+	node: any
+
+	def __repr__(self):
+		return f"Arcsin({self.node})"
+	
+@dataclass
+class ArcCosNode:
+	node: any
+
+	def __repr__(self):
+		return f"Arccos({self.node})"
+	
+@dataclass
+class ArcTanNode:
+	node: any
+
+	def __repr__(self):
+		return f"Arctan({self.node})"
+	
+@dataclass
+class ArcCotNode:
+	node: any
+
+	def __repr__(self):
+		return f"Arccot({self.node})"
+	
+@dataclass
+class NrootNode:
+	node: any
+
+	def __repr__(self):
+		return f"Nroot({self.node})"

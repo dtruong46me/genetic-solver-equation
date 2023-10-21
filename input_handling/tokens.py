@@ -21,8 +21,15 @@ class TokenType(Enum):
 	LN        = 16
 	EXP       = 17
 	E_CONST   = 18
-	COMMA     = 19
-	SQRT      = 20
+	PI        = 19
+	COMMA     = 20
+	SQRT      = 21
+	FACT      = 22
+	ARCSIN    = 23
+	ARCCOS    = 24
+	ARCTAN    = 25
+	ARCCOT    = 26
+	NROOT     = 27
 	
 @dataclass
 class Token:

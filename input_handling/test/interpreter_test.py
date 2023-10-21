@@ -1,7 +1,13 @@
 import unittest
-from nodes import *
-from interpreter import Interpreter
-from values import Number
+import os
+import sys
+
+path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, path)
+
+from core.nodes import *
+from core.interpreter import Interpreter
+from core.values import Number
 
 class TestInterpreter(unittest.TestCase):
 

@@ -1,5 +1,10 @@
-from tokens import TokenType
-from nodes import *
+from core.tokens import TokenType
+from core.nodes import *
+import os
+import sys
+
+path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, path)
 
 class Parser:
 	def __init__(self, tokens):

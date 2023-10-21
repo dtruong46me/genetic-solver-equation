@@ -1,7 +1,13 @@
-from lexer import Lexer
-from parser_ import Parser
-from interpreter import Interpreter
-from utils import *
+import os
+import sys
+
+path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, path)
+
+from core.lexer import Lexer
+from core.parser_ import Parser
+from core.interpreter import Interpreter
+from core.utils import *
 
 while True:
     text = Utils.text_handle(input(">Enter the expression: "))

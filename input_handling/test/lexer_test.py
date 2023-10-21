@@ -1,6 +1,12 @@
 import unittest
-from tokens import Token, TokenType
-from lexer import Lexer
+import os
+import sys
+
+path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, path)
+
+from core.tokens import Token, TokenType
+from core.lexer import Lexer
 
 class TestLexer(unittest.TestCase):
 	

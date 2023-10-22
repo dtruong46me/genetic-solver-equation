@@ -23,7 +23,7 @@ while True:
         interpreter = Interpreter()
         value = interpreter.visit(tree)
         print(value)
-
+        
     except Exception as e:
         print(e)
 

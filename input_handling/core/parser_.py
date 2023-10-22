@@ -13,7 +13,7 @@ class Parser:
 
 	def raise_error(self):
 		raise Exception("Invalid syntax")
-	
+
 	def advance(self):
 		try:
 			self.current_token = next(self.tokens)
@@ -22,7 +22,7 @@ class Parser:
 
 	def parse(self):
 		if self.current_token == None:
-			return None
+			return None 
 
 		result = self.expr()
 
@@ -40,7 +40,7 @@ class Parser:
 				result = AddNode(result, self.term())
 			elif self.current_token.type == TokenType.MINUS:
 				self.advance()
-				result = SubtractNode(result, self.term())
+				result = SubtractNode(result, self.term()) 
 
 		return result
 
@@ -63,7 +63,7 @@ class Parser:
 
 			self.advance()
 			result = PowerNode(result, self.comma())
-		
+		print(result)
 		return result
 
 	

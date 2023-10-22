@@ -2,11 +2,11 @@ import numpy as np
 from random import random, randint, sample
 
 # ###################Pramaters##############################
-equation = 'x*x - 3 = 22'
+equation = '(x - 3) * (x - 1) = 0'
 mutation_rate = 0.2
 cross_over_rate = 1
 elite = True
-elite_group = 4 
+elite_group = 8
 if elite_group % 2 != 0:
     print("elitism_group must be an even number")
     exit(0) 
@@ -24,7 +24,6 @@ distance_from_target = 1000
 genome_length = 32
 iterations = 500
 counter = 0
-# ###################Pramaters##############################
 
 
 # selecting the best offspring from a group of tournament_group

@@ -63,7 +63,6 @@ class Parser:
 
 			self.advance()
 			result = PowerNode(result, self.comma())
-		print(result)
 		return result
 
 	

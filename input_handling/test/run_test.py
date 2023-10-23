@@ -11,6 +11,7 @@ from core.utils import *
 
 while True:
     text = Utils.text_handle(input(">Enter the expression: "))
+    print(text)
     try:
         if text == "":
             print("End of testing")

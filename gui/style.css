@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&family=Poppins:wght@800&family=Sometype+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&family=Island+Moments&family=Poppins:wght@800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    outline: none;
+    border: none;
+    background-color: transparent;
+}
+
+body {
+    font-family: 'Island Moments', sans-serif;
+    color: #E88DD2;
+    background-image: url('../imgs/background2.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.navi_ {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.navi_:hover .navi span {
+    text-shadow: 0px 0px 8px #E88DD2;
+}
+
+.navi {
+    display: flex;
+    color: #E88DD2;
+}
+
+.navi i {
+    font-size: 32px;
+}
+
+.navi span {
+    font-size: 32px;
+    font-weight: 400;
+}
+
+.projname {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.projname img {
+    height: 48px;
+}
+
+.projname span {
+    font-size: 52px;
+    font-weight: 500;
+    text-shadow: 0px 0px 8px #E88DD2;
+}
+
+.entry {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.entry input[type="text"] {
+    font-family: 'Island Moments', sans-serif;
+    font-size: 24px;
+    padding-left: 32px;
+    width: 600px;
+    height: 60px;
+    border: 1px solid #E5D54B;
+    border-radius: 5px;
+    color: #E5D54B;
+    box-shadow: 0px 0px 6px 4px rgba(244, 246, 182, 0.25);
+
+}
+
+.submit_btn {
+    font-size: 28px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border: 1px solid #E88DD2;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    color: #E88DD2;
+}

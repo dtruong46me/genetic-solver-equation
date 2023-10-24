@@ -1,5 +1,10 @@
 
-from rpn.ga import *
+import sys
+import os
+
+path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, path)
+
 from rpn.input import *
 from rpn.evaluate import *
 
@@ -8,10 +13,11 @@ def main():
     tokens = tokenize(expression)
     output = reverse_polish_notation(tokens)
 
-    ga_solution = genetic_algorithm(handled_expr=output, min_value=0.2, max_value=10)
+    result = evaluate(output=output, x_value=2)
 
-    print(ga_solution)
-
+    print(tokens)
+    print(output)
+    print(result)
     return
 
 if __name__ == '__main__':

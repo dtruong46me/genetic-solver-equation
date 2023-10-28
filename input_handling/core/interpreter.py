@@ -10,7 +10,7 @@ sys.path.insert(0, path)
 CONST = {"e": math.e}
 class Interpreter:
 	def __init__(self):
-		pass
+		pass  
 
 	def visit(self, node):
 		method_name = f'visit_{type(node).__name__}'

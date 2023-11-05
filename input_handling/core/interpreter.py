@@ -39,7 +39,7 @@ class Interpreter:
         try:
             return Number(self.visit(node.node_a).value / self.visit(node.node_b).value)
         except:
-            return float("infinity")
+            return Number(float("infinity"))
         
     def visit_PlusNode(self, node):
         return self.visit(node.node)

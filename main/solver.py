@@ -17,15 +17,16 @@ class Genetic_Algorithm:
             print('Can not calculate empty equations')
             exit(0)
         
+        self.cross_over_rate = 1
         self.mutation_rate = 0.2
         self.elite = True
-        self.elite_group = 8
+        self.elite_group = 4
         if self.elite_group % 2 != 0:
             print("elitism_group must be an even number")
             exit(0)
-        self.tournament_group = 20
+        self.tournament_group = 8
         
-        self.population = 500
+        self.population = 200
         if self.population % 2 != 0:
             print("Population must be an even number")
             exit(0)
@@ -34,9 +35,9 @@ class Genetic_Algorithm:
         self.current_gen = []
         self.next_gen = []
         self.fitness_lst = []
-        self.distance_from_target = 10
+        self.distance_from_target = 1000
         self.genome_length = 32
-        self.iterations = 1000
+        self.iterations = 1100
         self.counter = 0
 
 
@@ -48,11 +49,14 @@ class Genetic_Algorithm:
 
 
         # cross overing some of the genes by a random cut
-    def cross_over(self, genome_1, genome_2):
-        random_slice = randint(10, 20)
-        genome_1_out = genome_1[:random_slice] + genome_2[random_slice:]
-        genome_2_out = genome_2[:random_slice] + genome_1[random_slice:]
-        return genome_1_out, genome_2_out
+    def cross_over(self, genome_1, genome_2):  
+        if random() < self.cross_over_rate:
+            random_slice = randint(1, self.genome_length - 1)
+            genome_1_out = genome_1[:random_slice] + genome_2[random_slice:]
+            genome_2_out = genome_2[:random_slice] + genome_1[random_slice:]
+            return genome_1_out, genome_2_out
+        else:
+            return genome_1, genome_2
 
         # mutating a random bit of a given genome by a crossing rate
     def mutate(self, genome):
@@ -97,14 +101,14 @@ class Genetic_Algorithm:
         interpreter = Interpreter()
         value = interpreter.visit(tree)
     
-        try:
-            distance = abs(value.value  - float(right_side))
-            if distance > self.distance_from_target or input_num > 1e4 or input_num < -1e4:
-                return 0
-        except Exception:
-            return 0
+        
+        distance = abs(value.value  - float(right_side))
+        # if distance > self.distance_from_target: 
+        #     return 0
+        # except Exception:
+        #     return float("-infinity")
 
-        return 1 / (distance + 1e-10)
+        return 1 / (distance + 1)
 
 
     # creating a new generation
@@ -114,13 +118,13 @@ class Genetic_Algorithm:
             if len(self.next_gen) == 0:
                 for pop in range(int(self.population / 2)):
                     offspring_1, offspring_2 = self.cross_over(self.tournament_selection(), self.self.tournament_selection())
-                    offspring_1, offspring_2 = self.mutate(offspring_1), self.mutate(offspring_2) 
+                    offspring_1, offspring_2 = self.mutate(offspring_1), self.mutate(offspring_2)
                     self.next_gen.append(offspring_1)
                     self.next_gen.append(offspring_2)
             else:
                 for pop in range(int(self.population / 2)):
                     offspring_1, offspring_2 = self.cross_over(self.tournament_selection(), self.tournament_selection())
-                    offspring_1, offspring_2 = self.mutate(offspring_1), self.mutate(offspring_2)
+                    offspring_1, offspring_2 = self.mutate(offspring_1)
                     self.next_gen[pop * 2] = offspring_1
                     self.next_gen[pop * 2 + 1] = offspring_2
         else:
@@ -181,8 +185,8 @@ class Genetic_Algorithm:
 
         value = (-1) ** sign_bit * 2 ** exponent * fraction
         return value
-        
-        # solve equation
+            
+    # solve equation
     def solve(self):
         self.init_gen_0()
         self.fitness_update()              
@@ -192,16 +196,4 @@ class Genetic_Algorithm:
             print(list(map(self.binary32_to_float, [self.current_gen[g] for g in np.argsort(self.fitness_lst)[-1:]]))[0])
             self.create_new_gen()
             
-        
-        
-
-
-# if __name__ == '__main__':
-#     init_gen_0()
-#     fitness_update()
     
-#     create_new_gen()
-#     for i in range(iterations):
-#         fitness_update()
-#         print(list(map(binary32_to_float, [current_gen[g] for g in np.argsort(fitness_lst)[-1:]]))[0])
-#         create_new_gen()

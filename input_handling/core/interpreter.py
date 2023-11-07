@@ -56,20 +56,31 @@ class Interpreter:
                     if base < 0:
                         return Number(-((-base)**pow))
                     else:
-                        return Number(base**pow)
+                        try:
+                            return Number(base ** pow)
+                        except Exception:
+                            return Number(float("infinity"))
                 else:
                     if base < 0:
                         raise Exception("Error: Runtime math error")
                     else:
-                        return Number(base**pow)
-                        
+                        try:
+                            return Number(base ** pow)
+                        except Exception:
+                            return Number(float("infinity"))                  
             else:
                 if base < 0:
                     raise Exception("Error: Runtime math error")
                 else:
-                    return Number(base**pow)
+                    try:
+                        return Number(base ** pow)
+                    except Exception:
+                        return Number(float("infinity"))
         else:
-            return Number(base ** pow)
+            try:
+                return Number(base ** pow)
+            except Exception:
+                return Number(float("infinity"))
         
     def visit_AbsoluteValueNode(self, node):
         check_num = self.visit(node.node).value

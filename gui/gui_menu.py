@@ -13,6 +13,7 @@ class MenuGUI:
 
         self.window.geometry("1000x600")
         self.window.configure(bg="#FFF")
+        self.window.title("Genetic Solver Equation")
 
         self.canvas = Canvas(
             window,
@@ -140,7 +141,7 @@ class MenuGUI:
             borderwidth=0,
             background="#fff",
             highlightthickness=0,
-            command=self.handle_contact,
+            command=self.handle_exit,
             relief="flat"
         )
         self.exit_btn.place(
@@ -223,7 +224,7 @@ class MenuGUI:
         print()
     
     def handle_exit(self):
-        print()
+        self.window.destroy()
     
     def handle_fb(self):
         print()

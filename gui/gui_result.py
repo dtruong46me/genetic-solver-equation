@@ -14,6 +14,7 @@ class ResultGUI:
 
         self.window.geometry("1000x600")
         self.window.configure(bg="#FFF")
+        self.window.title("Genetic Solver Equation")
 
         self.canvas = Canvas(
             window,
@@ -158,7 +159,7 @@ class ResultGUI:
         print()
 
     def handle_exit(self):
-        print()
+        self.window.destroy()
     
     def handle_continue(self):
         print()

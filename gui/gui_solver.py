@@ -13,6 +13,7 @@ class SolverGUI:
 
         self.window.geometry("1000x600")
         self.window.configure(bg="#FFF")
+        self.window.title("Genetic Solver Equation")
 
         self.canvas = Canvas(
             window,

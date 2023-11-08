@@ -4,7 +4,7 @@ from pathlib import Path
 
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 
-class Menu:
+class ResultGUI:
     def __init__(self, window) -> None:
         # Handle assets file path
         self.output_path = Path(__file__).parent
@@ -78,62 +78,89 @@ class Menu:
             height=52.0
         )
 
-        # Entry input background
-        self.entry_img = PhotoImage(
-            file=self.relative_to_assets("entry.png"))
-        self.entry_bg = self.canvas.create_image(
-            499.5,
-            273.5,
-            image=self.entry_img
+        # Result Frame
+        self.result_frame_img = PhotoImage(
+            file=self.relative_to_assets("result_frame.png"))
+        self.result_frame = self.canvas.create_image(
+            499.0,
+            355.0,
+            image=self.result_frame_img
         )
 
-        # Entry input
-        self.entry = Entry(
-            bd=0,
-            bg="#FFFFFF",
-            fg="#031F4B",
-            highlightthickness=0,
-            font=("Consolas", 16),
-        )
-        self.entry.place(
-            x=215.0,
-            y=248.0,
-            width=571.0,
-            height=52.0
+        # Input
+        self.canvas.create_text(
+            279.0,
+            286.0,
+            anchor="nw",
+            text="x^2-5x+log(x+1)",
+            fill="#031F4B",
+            font=("Consolas Bold", 16 * -1)
         )
 
-        # "Submit" BUTTON
-        self.submit_img = PhotoImage(
-            file=self.relative_to_assets("btn__submit.png"))
-        self.submit_btn = Button(
-            image=self.submit_img,
+        # Output
+        self.canvas.create_text(
+            279.0,
+            363.0,
+            anchor="nw",
+            text="x=0.0000000001",
+            fill="#031F4B",
+            font=("Consolas Bold", 16 * -1)
+        )
+
+        # Time
+        self.canvas.create_text(
+            279.0,
+            440.0,
+            anchor="nw",
+            text="0.00423ms",
+            fill="#031F4B",
+            font=("Consolas Bold", 16 * -1)
+        )
+
+        # "Exit" BUTTON
+        self.exit_img = PhotoImage(
+            file=self.relative_to_assets("btn__exit_big.png"))
+        self.exit_btn = Button(
+            image=self.exit_img,
             borderwidth=0,
             highlightthickness=0,
-            command=self.handle_submit,
+            command=self.handle_exit,
             relief="flat"
         )
-        self.submit_btn.place(
-            x=426.0,
-            y=335.0,
-            width=147.0,
-            height=56.0
+        self.exit_btn.place(
+            x=364.0,
+            y=506.0,
+            width=123.0,
+            height=47.0
         )
 
-        self.quote_img = PhotoImage(
-            file=self.relative_to_assets("quote.png"))
-        self.quote = self.canvas.create_image(
-            499.0,
-            517.0,
-            image=self.quote_img
+        # "Continue" BUTTON
+        self.continue_img = PhotoImage(
+            file=self.relative_to_assets("btn__continue.png"))
+        self.continue_btn = Button(
+            image=self.continue_img,
+            borderwidth=0,
+            highlightthickness=0,
+            command=self.handle_continue,
+            relief="flat"
         )
-
-    def handle_submit(self):
-        print()
+        self.continue_btn.place(
+            x=513.0,
+            y=506.0,
+            width=123.0,
+            height=47.0
+        )
     
     def handle_backhome(self):
         print()
 
     def handle_setting(self):
+        print()
+
+    def handle_exit(self):
+        print()
+    
+    def handle_continue(self):
         print()
 
     def relative_to_assets(self, path: str) -> Path:
@@ -142,6 +169,6 @@ class Menu:
 
 if __name__ == '__main__':
     window = Tk()
-    menu = Menu(window)
+    menu = ResultGUI(window)
     window.resizable(False, False)
     window.mainloop()

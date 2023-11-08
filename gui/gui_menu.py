@@ -1,9 +1,9 @@
 
 from pathlib import Path
 
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Toplevel
 
-class Menu:
+class MenuGUI:
     def __init__(self, window) -> None:
         # Handle assets file path
         self.output_path = Path(__file__).parent
@@ -237,6 +237,6 @@ class Menu:
 
 if __name__ == '__main__':
     window = Tk()
-    menu = Menu(window)
+    menu = MenuGUI(window)
     window.resizable(False, False)
     window.mainloop()

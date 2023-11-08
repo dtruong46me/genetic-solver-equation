@@ -238,4 +238,5 @@ class Menu:
 if __name__ == '__main__':
     window = Tk()
     menu = Menu(window)
+    window.resizable(False, False)
     window.mainloop()

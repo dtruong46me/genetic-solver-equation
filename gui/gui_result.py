@@ -1,11 +1,13 @@
 
 
 from pathlib import Path
+import gui_menu
+import gui_solver
 
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 
 class ResultGUI:
-    def __init__(self, window) -> None:
+    def __init__(self, window, input_data=None) -> None:
         # Handle assets file path
         self.output_path = Path(__file__).parent
         self.assets_path = self.output_path / Path(r"../assets")
@@ -93,7 +95,7 @@ class ResultGUI:
             279.0,
             286.0,
             anchor="nw",
-            text="x^2-5x+log(x+1)",
+            text=input_data,
             fill="#031F4B",
             font=("Consolas Bold", 16 * -1)
         )
@@ -153,7 +155,12 @@ class ResultGUI:
         )
     
     def handle_backhome(self):
-        print()
+        self.current_gui = None
+        for widget in self.window.winfo_children():
+            widget.destroy()
+
+        self.backhome_gui = gui_menu.MenuGUI(self.window)
+        self.current_gui = self.backhome_gui
 
     def handle_setting(self):
         print()
@@ -162,7 +169,12 @@ class ResultGUI:
         self.window.destroy()
     
     def handle_continue(self):
-        print()
+        self.current_gui = None
+        for widget in self.window.winfo_children():
+            widget.destroy()
+
+        self.solver_gui = gui_solver.SolverGUI(self.window)
+        self.current_gui = self.solver_gui
 
     def relative_to_assets(self, path: str) -> Path:
         return self.assets_path / Path(path)

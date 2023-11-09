@@ -1,6 +1,12 @@
 
 from pathlib import Path
 
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import gui_menu
+import gui_solver
+import webbrowser
+
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 
 class How2UseGUI:
@@ -169,19 +175,42 @@ class How2UseGUI:
         )
 
     def handle_backhome(self):
-        print()
+        self.current_gui = None
+        for widget in self.window.winfo_children():
+            widget.destroy()
+
+        self.backhome_gui = gui_menu.MenuGUI(self.window)
+        self.current_gui = self.backhome_gui
     
     def handle_fb(self):
-        print()
+        webbrowser.open("https://www.facebook.com/")
     
     def handle_in(self):
-        print()
+        webbrowser.open("https://www.linkedin.com/")
     
     def handle_mail(self):
-        print()
-    
+        receiver_email = "dtruong46.me@example.com"
+        subject = "[HELAX] Enter your title..."
+
+        body = "### Enter your message..."
+
+        message = MIMEMultipart()
+        message["From"] = "dtruong46.me@example.com"
+        message["To"] = receiver_email
+        message["Subject"] = subject
+
+        message.attach(MIMEText(body, "plain"))
+
+        webbrowser.open(f"mailto:{receiver_email}?subject={subject}&body={body}")
+
     def handle_startnow(self):
-        print()
+        self.current_gui = None
+
+        for widget in self.window.winfo_children():
+            widget.destroy()
+
+        self.solver_gui = gui_solver.SolverGUI(self.window)
+        self.current_gui = self.solver_gui
 
     def relative_to_assets(self, path: str) -> Path:
         return self.assets_path / Path(path)

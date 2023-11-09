@@ -1,5 +1,9 @@
 
 from pathlib import Path
+import gui_solver
+import gui_contact
+import gui_about
+import gui_how2use
 
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Toplevel
 
@@ -72,6 +76,8 @@ class MenuGUI:
             width=146.0,
             height=53.0
         )
+        self.start_btn.bind("<Return>", lambda event: self.handle_start())
+        self.start_btn.focus_set()
 
         # HelaX BOT
         self.bot_img = PhotoImage(
@@ -209,19 +215,43 @@ class MenuGUI:
         return self.assets_path / Path(path)
     
     def handle_how_to_use(self):
-        print()
+        self.current_gui = None
+
+        for widget in self.window.winfo_children():
+            widget.destroy()
+
+        self.how2use_gui = gui_how2use.How2UseGUI(self.window)
+        self.current_gui = self.how2use_gui
     
     def handle_start(self):
-        print()
+        self.current_gui = None
+
+        for widget in self.window.winfo_children():
+            widget.destroy()
+
+        self.solver_gui = gui_solver.SolverGUI(self.window)
+        self.current_gui = self.solver_gui
 
     def handle_about(self):
-        print()
+        self.current_gui = None
+
+        for widget in self.window.winfo_children():
+            widget.destroy()
+
+        self.about_gui = gui_about.AboutGUI(self.window)
+        self.current_gui = self.about_gui
     
     def handle_faqs(self):
         print()
 
     def handle_contact(self):
-        print()
+        self.current_gui = None
+
+        for widget in self.window.winfo_children():
+            widget.destroy()
+
+        self.contact_gui = gui_contact.ContactGUI(self.window)
+        self.current_gui = self.contact_gui
     
     def handle_exit(self):
         self.window.destroy()

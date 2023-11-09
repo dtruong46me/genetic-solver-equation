@@ -1,7 +1,9 @@
 
 from pathlib import Path
+import gui_menu
+import gui_result
 
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Toplevel
 
 class SolverGUI:
     def __init__(self, window) -> None:
@@ -101,6 +103,7 @@ class SolverGUI:
             width=571.0,
             height=52.0
         )
+        self.entry.bind("<Return>", lambda event: self.handle_submit())
 
         # "Submit" BUTTON
         self.submit_img = PhotoImage(
@@ -129,10 +132,24 @@ class SolverGUI:
         )
 
     def handle_submit(self):
-        print()
+        # Lấy dữ liệu từ Entry
+        input_data = self.entry.get()
+
+        self.current_gui = None
+        for widget in self.window.winfo_children():
+            widget.destroy()
+
+        # Tạo cửa sổ ResultGUI và truyền dữ liệu
+        self.result_gui = gui_result.ResultGUI(self.window, input_data)
+        self.current_gui = self.result_gui
     
     def handle_backhome(self):
-        print()
+        self.current_gui = None
+        for widget in self.window.winfo_children():
+            widget.destroy()
+
+        self.backhome_gui = gui_menu.MenuGUI(self.window)
+        self.current_gui = self.backhome_gui
 
     def handle_setting(self):
         print()

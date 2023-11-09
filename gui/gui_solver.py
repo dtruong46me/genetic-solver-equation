@@ -119,6 +119,7 @@ class SolverGUI:
             height=56.0
         )
 
+        # Quote Genetic Algorithm
         self.quote_img = PhotoImage(
             file=self.relative_to_assets("quote.png"))
         self.quote = self.canvas.create_image(

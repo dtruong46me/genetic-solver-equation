@@ -94,15 +94,15 @@ class Genetic_Algorithm:
         splited_eq = self.equation.replace('x', format(input_num, '.5f')).split('=')
         left_side, right_side = splited_eq[0].strip(), splited_eq[1].strip()
     
-        lexer = Lexer(left_side)
-        tokens = lexer.generate_tokens()
-        parser = Parser(tokens)
-        tree = parser.parse()
-        interpreter = Interpreter()
-        value = interpreter.visit(tree)
+        leftLexer, rightLexer = Lexer(left_side), Lexer(right_side)
+        left_tokens, right_tokens = leftLexer.generate_tokens(), rightLexer.generate_tokens()
+        left_parser, right_parser = Parser(left_tokens), Parser(right_tokens)
+        leftTree, rightTree = left_parser.parse(), right_parser.parse()
+        left_interpreter, right_interpreter = Interpreter(), Interpreter()
+        left_value, right_value = left_interpreter.visit(leftTree), right_interpreter.visit(rightTree)
     
         
-        distance = abs(value.value  - float(right_side))
+        distance = abs(left_value.value  - right_value.value)
         # if input_num > 1e20 or input_num < -1e20: 
         #     return 0
         # except Exception:

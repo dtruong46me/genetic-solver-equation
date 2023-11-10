@@ -19,6 +19,9 @@ class MenuGUI:
         self.window.configure(bg="#FFF")
         self.window.title("Genetic Solver Equation")
 
+        self.icon_path = PhotoImage(file=self.relative_to_assets("helax__x.png"))
+        self.window.iconphoto(True, self.icon_path)
+
         self.canvas = Canvas(
             window,
             bg = "#FFF",

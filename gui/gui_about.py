@@ -19,6 +19,9 @@ class AboutGUI:
         self.window.configure(bg="#FFF")
         self.window.title("Genetic Solver Equation")
 
+        self.icon_path = PhotoImage(file=self.relative_to_assets("helax__x.png"))
+        self.window.iconphoto(True, self.icon_path)
+
         self.canvas = Canvas(
             window,
             bg = "#FFF",
@@ -46,6 +49,8 @@ class AboutGUI:
             width=171.0,
             height=52.0
         )
+        self.backhome_btn.bind("<Return>", lambda event: self.handle_backhome())
+        self.backhome_btn.focus_set()
 
         # HelaX Logo
         self.logo_img = PhotoImage(

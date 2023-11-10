@@ -19,6 +19,9 @@ class ContactGUI:
         self.window.configure(bg="#FFF")
         self.window.title("Genetic Solver Equation")
 
+        self.icon_path = PhotoImage(file=self.relative_to_assets("helax__x.png"))
+        self.window.iconphoto(True, self.icon_path)
+
         self.canvas = Canvas(
             window,
             bg = "#FFF",
@@ -46,6 +49,8 @@ class ContactGUI:
             width=171.0,
             height=52.0
         )
+        self.backhome_btn.bind("<Return>", lambda event: self.handle_backhome())
+        self.backhome_btn.focus_set()
 
         # HelaX Logo
         self.logo_img = PhotoImage(
@@ -214,7 +219,7 @@ class ContactGUI:
         self.window.destroy()
     
     def handle_form(self):
-        print()
+        webbrowser.open("https://docs.google.com/forms/d/e/1FAIpQLSfsCBzftu9dVMe_dFVBh1xX0JSM-VHHgFwFFjmcrW4aPBYcEA/viewform?usp=sf_link")
 
     def relative_to_assets(self, path: str) -> Path:
         return self.assets_path / Path(path)

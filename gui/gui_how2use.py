@@ -21,6 +21,9 @@ class How2UseGUI:
         self.window.configure(bg="#FFF")
         self.window.title("Genetic Solver Equation")
 
+        self.icon_path = PhotoImage(file=self.relative_to_assets("helax__x.png"))
+        self.window.iconphoto(True, self.icon_path)
+
         self.canvas = Canvas(
             window,
             bg = "#FFF",
@@ -147,7 +150,7 @@ class How2UseGUI:
             borderwidth=0,
             highlightthickness=0,
             background="#fff",
-            command=self.handle_startnow,
+            command=self.handle_inhere,
             relief="flat"
         )
         self.inhere_btn.place(
@@ -157,22 +160,24 @@ class How2UseGUI:
             height=19.0
         )
 
-        # "Start now" BUTTON
-        self.exit_img = PhotoImage(
+        # "Exit" BUTTON
+        self.startnow_img = PhotoImage(
             file=self.relative_to_assets("btn__startnow.png"))
-        self.exit_btn = Button(
-            image=self.exit_img,
+        self.startnow_btn = Button(
+            image=self.startnow_img,
             borderwidth=0,
             highlightthickness=0,
             command=self.handle_startnow,
             relief="flat"
         )
-        self.exit_btn.place(
+        self.startnow_btn.place(
             x=778.0,
             y=524.0,
             width=142.0,
             height=46.0
         )
+        self.startnow_btn.bind("<Return>", lambda event: self.handle_startnow())
+        self.startnow_btn.focus_set()
 
     def handle_backhome(self):
         self.current_gui = None
@@ -211,6 +216,9 @@ class How2UseGUI:
 
         self.solver_gui = gui_solver.SolverGUI(self.window)
         self.current_gui = self.solver_gui
+    
+    def handle_inhere(self):
+        webbrowser.open("https://github.com/dtruong46me/genetic-solver-equation/blob/master/README.md#input-syntax")
 
     def relative_to_assets(self, path: str) -> Path:
         return self.assets_path / Path(path)

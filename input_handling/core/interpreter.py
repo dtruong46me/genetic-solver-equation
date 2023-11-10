@@ -99,10 +99,12 @@ class Interpreter:
 
     def visit_SinNode(self,node):
         val = self.visit(node.node).value
+        # if val > 6.3 or val < -6.3: return Number(float("infinity"))
         return Number(math.sin(val))
     
     def visit_CosNode(self,node):
         val = self.visit(node.node).value
+        # if val > 6.3 or val < -6.3: return Number(float("infinity"))
         return Number(math.sin((math.pi/2) - val))
     
     def visit_TanNode(self,node):

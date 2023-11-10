@@ -103,7 +103,7 @@ class Genetic_Algorithm:
     
         
         distance = abs(value.value  - float(right_side))
-        # if distance > self.distance_from_target: 
+        # if input_num > 1e20 or input_num < -1e20: 
         #     return 0
         # except Exception:
         #     return float("-infinity")

@@ -1,5 +1,9 @@
 
 from pathlib import Path
+import webbrowser
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
 import gui_solver
 import gui_contact
 import gui_about
@@ -260,13 +264,25 @@ class MenuGUI:
         self.window.destroy()
     
     def handle_fb(self):
-        print()
+        webbrowser.open("https://facebook.com/")
     
     def handle_in(self):
-        print()
+        webbrowser.open("https://linkedin.com/")
     
     def handle_mail(self):
-        print()
+        receiver_email = "truong.pd214937@sis.hust.edu.vn; quy.dnc214927@sis.hust.edu.vn; truc.nt214936@sis.hust.edu.vn;"
+        subject = "[HELAX] Enter your title..."
+
+        body = "### Enter your message..."
+
+        message = MIMEMultipart()
+        message["From"] = "truong.pd214937@sis.hust.edu.vn; quy.dnc214927@sis.hust.edu.vn; truc.nt214936@sis.hust.edu.vn;"
+        message["To"] = receiver_email
+        message["Subject"] = subject
+
+        message.attach(MIMEText(body, "plain"))
+
+        webbrowser.open(f"mailto:{receiver_email}?subject={subject}&body={body}")
 
 
 if __name__ == '__main__':

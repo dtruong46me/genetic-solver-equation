@@ -194,13 +194,13 @@ class How2UseGUI:
         webbrowser.open("https://www.linkedin.com/")
     
     def handle_mail(self):
-        receiver_email = "dtruong46.me@example.com"
+        receiver_email = "truong.pd214937@sis.hust.edu.vn; quy.dnc214927@sis.hust.edu.vn; truc.nt214936@sis.hust.edu.vn;"
         subject = "[HELAX] Enter your title..."
 
         body = "### Enter your message..."
 
         message = MIMEMultipart()
-        message["From"] = "dtruong46.me@example.com"
+        message["From"] = "truong.pd214937@sis.hust.edu.vn; quy.dnc214927@sis.hust.edu.vn; truc.nt214936@sis.hust.edu.vn;"
         message["To"] = receiver_email
         message["Subject"] = subject
 

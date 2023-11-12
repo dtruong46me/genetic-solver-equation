@@ -62,7 +62,8 @@ class Interpreter:
                             return Number(float("infinity"))
                 else:
                     if base < 0:
-                        raise Exception("Error: Runtime math error")
+                        # raise Exception("Error: Runtime math error")
+                        return Number(float("infinity"))    
                     else:
                         try:
                             return Number(base ** pow)
@@ -70,7 +71,8 @@ class Interpreter:
                             return Number(float("infinity"))                  
             else:
                 if base < 0:
-                    raise Exception("Error: Runtime math error")
+                    # raise Exception("Error: Runtime math error")
+                    return Number(float("infinity"))
                 else:
                     try:
                         return Number(base ** pow)

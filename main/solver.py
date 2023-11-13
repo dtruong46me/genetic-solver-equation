@@ -1,6 +1,7 @@
 import os
 import sys
 import timeit
+import math
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, path)
 
@@ -109,7 +110,7 @@ class Genetic_Algorithm:
           
         distance = abs(left_value.value  - right_value.value)
         
-        if  input_num > self.max_range or input_num < self.min_range:
+        if  math.isnan(distance) or input_num > self.max_range or input_num < self.min_range:
             return 0
         
         return 1/ (1 + distance)

@@ -1,5 +1,6 @@
 import os
 import sys
+import timeit
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, path)
 
@@ -11,7 +12,9 @@ import numpy as np
 from random import random, randint, sample
 
 class Genetic_Algorithm:
-    def __init__(self):
+    def __init__(self, min_range = -1e10, max_range = 1e10):
+        self.min_range = min_range
+        self.max_range = max_range
         self.equation = input('> Enter the equation: ') 
         if self.equation == '':
             print('Can not calculate empty equations')
@@ -91,7 +94,11 @@ class Genetic_Algorithm:
         self.counter += 1
         input_num = self.binary32_to_float(genome)
         splited_eq = self.equation.replace('x', format(input_num, '.5f')).split('=')
-        left_side, right_side = splited_eq[0].strip(), splited_eq[1].strip()
+        if len(splited_eq) == 1: 
+            left_side = splited_eq[0].strip()
+            right_side = '0'
+        else:
+            left_side, right_side = splited_eq[0].strip(), splited_eq[1].strip()
     
         leftLexer, rightLexer = Lexer(left_side), Lexer(right_side)
         left_tokens, right_tokens = leftLexer.generate_tokens(), rightLexer.generate_tokens()
@@ -102,8 +109,11 @@ class Genetic_Algorithm:
           
         distance = abs(left_value.value  - right_value.value)
         
-        return 1 / (distance + 1)
-
+        if  input_num > self.max_range or input_num < self.min_range:
+            return 0
+        
+        return 1/ (1 + distance)
+    
 
     # creating a new generation
     def create_new_gen(self):
@@ -188,7 +198,8 @@ class Genetic_Algorithm:
         self.create_gen_0()
         self.fitness_update()              
         self.create_new_gen()
-        for i in range(self.iterations):
+        startTime = timeit.default_timer()
+        while True: # for i in range(self.iterations):
             self.fitness_update()
             best_index = np.argsort(self.fitness)[-1]
             best_binary = self.current_gen[best_index] 
@@ -196,4 +207,7 @@ class Genetic_Algorithm:
                             'Fitness: ', self.fitness[best_index] )
             self.create_new_gen()
             
-    
+            if timeit.default_timer() - startTime > 10:
+                break
+            
+            

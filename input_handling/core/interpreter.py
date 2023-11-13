@@ -39,7 +39,7 @@ class Interpreter:
         try:
             return Number(self.visit(node.node_a).value / self.visit(node.node_b).value)
         except:
-            return Number(float("infinity"))
+            return NumberNode(float("infinity"))
         
     def visit_PlusNode(self, node):
         return self.visit(node.node)
@@ -97,7 +97,8 @@ class Interpreter:
         if val >= 0:
             return Number(math.sqrt(val))
         else:
-            raise Exception("Error: x must be a non-negative value")
+            return Number(float("infinity"))
+            # raise Exception("Error: x must be a non-negative value")
 
     def visit_SinNode(self,node):
         val = self.visit(node.node).value
@@ -139,7 +140,7 @@ class Interpreter:
     
     def visit_LnNode(self,node):
         val = self.visit(node.node).value
-        return Number(math.log(val)) if val > 0 else float("infinity")
+        return Number(math.log(val)) if val > 0 else Number(float("infinity"))
     
     def visit_CommaNode(self, node):
         val1 = self.visit(node.node_a).value
@@ -150,16 +151,14 @@ class Interpreter:
         try:
             arg = self.visit_CommaNode(node.node)
             if arg[1] <=0 or arg[1] == 1:
-                raise Exception("Error: Invalid base")
+                return Number(float("infinity")) 
             else:
                 if arg[0] <= 0:
-                    # raise Exception("Error: x must be a positive number")
                     return Number(float("infinity"))
                 return Number(math.log(arg[0], arg[1]))
         except AttributeError:
             val = self.visit(node.node).value
             if val <= 0:
-                # raise Exception("Error: x must be a positive number")
                 return Number(float("infinity"))
             return Number(math.log(val, 10))
 
@@ -174,7 +173,7 @@ class Interpreter:
             root = arg[1] 
                
             if root <= 0:
-                return float('infinity')
+                return Number(float('infinity'))
             else:
                 if root % 2 == 0:
                     if val < 0:
@@ -192,5 +191,6 @@ class Interpreter:
         except AttributeError:
             val = self.visit(node.node).value
             if val < 0:
-                raise Exception("Error: Even n-th root only accept non-negative value")
+                return Number(float("infinity"))
+                # raise Exception("Error: Even n-th root only accept non-negative value")
             return Number(math.sqrt(val)) 

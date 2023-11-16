@@ -20,7 +20,7 @@ class Genetic_Algorithm:
         if self.equation == '':
             print('Can not calculate empty equations')
             exit(0)
-        
+    
         self.mutation_rate = 0.2
         self.elite = True
         self.elite_group = 4
@@ -30,9 +30,7 @@ class Genetic_Algorithm:
         self.random_group = 8
         
         self.population = 200
-        # if self.population % 2 != 0:
-        #     print("Population must be an even number")
-        #     exit(0)
+        
 
         self.gen_num = 0
         self.current_gen = []
@@ -88,9 +86,9 @@ class Genetic_Algorithm:
                         self.next_gen[g] =self.create_rand_genome()
                 except OverflowError:
                        pass
+                   
 
-
-        # evaluating the fitness/accuracy of a given genome
+    # evaluating the fitness/accuracy of a given genome
     def fitness_evaluate(self, genome):
         self.counter += 1
         input_num = self.binary32_to_float(genome)
@@ -115,7 +113,25 @@ class Genetic_Algorithm:
         
         return 1/ (1 + distance)
     
-
+    
+    # return the value of the left hand side 
+    def y_return(self, x):
+        splited_eq = self.equation.replace('x', format(x, '.5f')).split('=')
+        if len(splited_eq) == 1: 
+            left_side = splited_eq[0].strip()
+        else:
+            left_side = splited_eq[0].strip()
+        
+        leftLexer = Lexer(left_side)
+        left_tokens = leftLexer.generate_tokens()
+        left_parser= Parser(left_tokens)
+        leftTree = left_parser.parse()
+        left_interpreter = Interpreter()
+        y = left_interpreter.visit(leftTree)
+        
+        return y
+        
+        
     # creating a new generation
     def create_new_gen(self):
         # global current_gen, next_gen
@@ -192,10 +208,13 @@ class Genetic_Algorithm:
         value = (-1) ** sign_bit * 2 ** exponent * fraction
         
         return value
-            
+          
             
     # solve equation
     def solve(self):
+        x_result, y_result = [], []
+        fitness = []
+        
         self.create_gen_0()
         self.fitness_update()              
         self.create_new_gen()
@@ -204,11 +223,25 @@ class Genetic_Algorithm:
             self.fitness_update()
             best_index = np.argsort(self.fitness)[-1]
             best_binary = self.current_gen[best_index] 
-            print('Result: ', self.binary32_to_float(best_binary), '  ', \
-                            'Fitness: ', self.fitness[best_index] )
+            best_result = self.binary32_to_float(best_binary)
+            
+            x_result.append(best_result)
+            y_result.append(self.y_return(best_result))
+            fitness.append( self.fitness[best_index])
+            
+            print('Result: ', best_result, '  ', \
+                          'y: ', self.y_return(best_result), ' ',  'Fitness: ', self.fitness[best_index])
             self.create_new_gen()
             
-            if timeit.default_timer() - startTime > 10:
+            execution_time = timeit.default_timer() - startTime
+            
+            if execution_time > 10:
+                print('%.3f'% execution_time + 's')
                 break
+            
+        return x_result, y_result, fitness, execution_time
+            
+            
+            
             
             

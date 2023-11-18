@@ -1,5 +1,7 @@
 import os
 import sys
+import timeit
+import math
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, path)
 
@@ -11,48 +13,50 @@ import numpy as np
 from random import random, randint, sample
 
 class Genetic_Algorithm:
-    def __init__(self):
-        self.equation = input('>Enter the equation: ') 
+    def __init__(self, min_range = -1e10, max_range = 1e10):
+        self.min_range = min_range
+        self.max_range = max_range
+        self.equation = input('> Enter the equation: ') 
         if self.equation == '':
             print('Can not calculate empty equations')
             exit(0)
-        
+    
         self.mutation_rate = 0.2
         self.elite = True
-        self.elite_group = 8
+        self.elite_group = 4
         if self.elite_group % 2 != 0:
             print("elitism_group must be an even number")
             exit(0)
-        self.tournament_group = 20
+        self.random_group = 8
         
-        self.population = 500
-        if self.population % 2 != 0:
-            print("Population must be an even number")
-            exit(0)
+        self.population = 200
+        
 
         self.gen_num = 0
         self.current_gen = []
         self.next_gen = []
-        self.fitness_lst = []
-        self.distance_from_target = 10
+        self.fitness = []
+        self.distance_from_target = 1000
         self.genome_length = 32
-        self.iterations = 1000
+        self.iterations = 1100
         self.counter = 0
 
 
-        # selecting the best offspring from a group of tournament_group
-    def tournament_selection(self):
-        random_offsprings = sample(range(len(self.current_gen)), self.tournament_group)
-        offsprings_fitness = [self.fitness_lst[g] for g in random_offsprings]
-        return self.current_gen[random_offsprings[np.argmax(offsprings_fitness)]]
+        # selecting the best child from a group of random_group
+    def random_selection(self):
+        random_child = sample(range(len(self.current_gen)), self.random_group)
+        child_fitness = [self.fitness[g] for g in random_child]
+        
+        return self.current_gen[random_child[np.argmax(child_fitness)]]
 
 
         # cross overing some of the genes by a random cut
-    def cross_over(self, genome_1, genome_2):
-        random_slice = randint(10, 20)
-        genome_1_out = genome_1[:random_slice] + genome_2[random_slice:]
-        genome_2_out = genome_2[:random_slice] + genome_1[random_slice:]
-        return genome_1_out, genome_2_out
+    def cross_over(self, genome_1, genome_2):  
+        random_slice = randint(1, self.genome_length - 1)
+        genome_1_child = genome_1[:random_slice] + genome_2[random_slice:]
+        genome_2_child = genome_2[:random_slice] + genome_1[random_slice:]
+            
+        return genome_1_child, genome_2_child
 
         # mutating a random bit of a given genome by a crossing rate
     def mutate(self, genome):
@@ -60,14 +64,15 @@ class Genetic_Algorithm:
         for g in range(len(genome)):
             if random() < self.mutation_rate:
                 genome[g] = str((int(genome[g]) + 1) % 2)
+                
         return "".join(genome)
 
-       # transfer the best x offsprings of the previous generation to the next, x = elitism_group
+       # transfer the best x childs of the previous generation to the next, x = elitism_group
     def elite_func(self):
-        # global fitness_lst, current_gen, next_gen
-        best_offsprings = np.argsort(self.fitness_lst)[-self.elite_group:]
+        # global fitness, current_gen, next_gen
+        best_childs = np.argsort(self.fitness)[-self.elite_group:]
         indx = self.elite_group - 1
-        for i in best_offsprings:
+        for i in best_childs:
             if len(self.next_gen) < self.elite_group:
                 self.next_gen.append(self.current_gen[i])
             else:
@@ -81,83 +86,103 @@ class Genetic_Algorithm:
                         self.next_gen[g] =self.create_rand_genome()
                 except OverflowError:
                        pass
+                   
 
-
-        # evaluating the fitness/accuracy of a given genome
+    # evaluating the fitness/accuracy of a given genome
     def fitness_evaluate(self, genome):
         self.counter += 1
         input_num = self.binary32_to_float(genome)
         splited_eq = self.equation.replace('x', format(input_num, '.5f')).split('=')
-        left_side, right_side = splited_eq[0].strip(), splited_eq[1].strip()
+        if len(splited_eq) == 1: 
+            left_side = splited_eq[0].strip()
+            right_side = '0'
+        else:
+            left_side, right_side = splited_eq[0].strip(), splited_eq[1].strip()
     
-        lexer = Lexer(left_side)
-        tokens = lexer.generate_tokens()
-        parser = Parser(tokens)
-        tree = parser.parse()
-        interpreter = Interpreter()
-        value = interpreter.visit(tree)
-    
-        try:
-            distance = abs(value.value  - float(right_side))
-            if distance > self.distance_from_target or input_num > 1e4 or input_num < -1e4:
-                return 0
-        except Exception:
+        leftLexer, rightLexer = Lexer(left_side), Lexer(right_side)
+        left_tokens, right_tokens = leftLexer.generate_tokens(), rightLexer.generate_tokens()
+        left_parser, right_parser = Parser(left_tokens), Parser(right_tokens)
+        leftTree, rightTree = left_parser.parse(), right_parser.parse()
+        left_interpreter, right_interpreter = Interpreter(), Interpreter()
+        left_value, right_value = left_interpreter.visit(leftTree), right_interpreter.visit(rightTree)
+          
+        distance = abs(left_value.value  - right_value.value)
+        
+        if  math.isnan(distance) or input_num > self.max_range or input_num < self.min_range:
             return 0
-
-        return 1 / (distance + 1e-10)
-
-
+        
+        return 1/ (1 + distance)
+    
+    
+    # return the value of the left hand side 
+    def y_return(self, x):
+        splited_eq = self.equation.replace('x', format(x, '.5f')).split('=')
+        if len(splited_eq) == 1: 
+            left_side = splited_eq[0].strip()
+        else:
+            left_side = splited_eq[0].strip()
+        
+        leftLexer = Lexer(left_side)
+        left_tokens = leftLexer.generate_tokens()
+        left_parser= Parser(left_tokens)
+        leftTree = left_parser.parse()
+        left_interpreter = Interpreter()
+        y = left_interpreter.visit(leftTree)
+        
+        return y
+        
+        
     # creating a new generation
     def create_new_gen(self):
         # global current_gen, next_gen
         if not self.elite:           
             if len(self.next_gen) == 0:
                 for pop in range(int(self.population / 2)):
-                    offspring_1, offspring_2 = self.cross_over(self.tournament_selection(), self.self.tournament_selection())
-                    offspring_1, offspring_2 = self.mutate(offspring_1), self.mutate(offspring_2) 
-                    self.next_gen.append(offspring_1)
-                    self.next_gen.append(offspring_2)
+                    child_1, child_2 = self.cross_over(self.random_selection(), self.self.random_selection())
+                    child_1, child_2 = self.mutate(child_1), self.mutate(child_2)
+                    self.next_gen.append(child_1)
+                    self.next_gen.append(child_2)
             else:
                 for pop in range(int(self.population / 2)):
-                    offspring_1, offspring_2 = self.cross_over(self.tournament_selection(), self.tournament_selection())
-                    offspring_1, offspring_2 = self.mutate(offspring_1), self.mutate(offspring_2)
-                    self.next_gen[pop * 2] = offspring_1
-                    self.next_gen[pop * 2 + 1] = offspring_2
+                    child_1, child_2 = self.cross_over(self.random_selection(), self.random_selection())
+                    child_1, child_2 = self.mutate(child_1)
+                    self.next_gen[pop * 2] = child_1
+                    self.next_gen[pop * 2 + 1] = child_2
         else:
             # elitism function
             self.elite_func()
             if len(self.next_gen) == self.elite_group:
                 for pop in range(int(self.elite_group/2), int(self.population / 2)):
-                    offspring_1, offspring_2 = self.cross_over(
-                        self.tournament_selection(), self.tournament_selection())
-                    offspring_1, offspring_2 = self.mutate(
-                        offspring_1), self.mutate(offspring_2)
-                    self.next_gen.append(offspring_1)
-                    self.next_gen.append(offspring_2)
+                    child_1, child_2 = self.cross_over(
+                        self.random_selection(), self.random_selection())
+                    child_1, child_2 = self.mutate(
+                        child_1), self.mutate(child_2)
+                    self.next_gen.append(child_1)
+                    self.next_gen.append(child_2)
             else:
                 for pop in range(self.elite_group, int(self.population / 2)):
-                    offspring_1, offspring_2 = self.cross_over(
-                        self.tournament_selection(), self.tournament_selection())
-                    offspring_1, offspring_2 = self.mutate(
-                        offspring_1), self.mutate(offspring_2)
-                    self.next_gen[pop * 2 - self.elite_group] = offspring_1
-                    self.next_gen[pop * 2 + 1 - self.elite_group] = offspring_2
+                    child_1, child_2 = self.cross_over(
+                        self.random_selection(), self.random_selection())
+                    child_1, child_2 = self.mutate(
+                        child_1), self.mutate(child_2)
+                    self.next_gen[pop * 2 - self.elite_group] = child_1
+                    self.next_gen[pop * 2 + 1 - self.elite_group] = child_2
 
         self.current_gen = self.next_gen.copy()
 
 
         # updating the fitness
     def fitness_update(self):
-        if len(self.fitness_lst) == 0:
+        if len(self.fitness) == 0:
             for pop in range(self.population):
-                self.fitness_lst.append(self.fitness_evaluate(self.current_gen[pop]))
+                self.fitness.append(self.fitness_evaluate(self.current_gen[pop]))
         else:
             for pop in range(self.population):
-                self.fitness_lst[pop] = self.fitness_evaluate(self.current_gen[pop])
+                self.fitness[pop] = self.fitness_evaluate(self.current_gen[pop])
 
 
-       # creating generation 0 with random offsprings
-    def init_gen_0(self):
+       # creating generation 0 with random childs
+    def create_gen_0(self):
         for pop in range(self.population):
             self.current_gen.append(self.create_rand_genome())
 
@@ -168,7 +193,9 @@ class Genetic_Algorithm:
         for g in range(self.genome_length):
             rand_num = randint(0, 1)
             out += str(rand_num)
+            
         return out
+
 
     def binary32_to_float(self, binary_str):
         sign_bit = int( binary_str[0])
@@ -178,30 +205,43 @@ class Genetic_Algorithm:
         exponent = int(exponent_bits, 2) - 127
         fraction = 1 + sum(int(bit) * 2**(-i)
                                for i, bit in enumerate(fraction_bits, start=1))
-
         value = (-1) ** sign_bit * 2 ** exponent * fraction
-        return value
         
-        # solve equation
+        return value
+          
+            
+    # solve equation
     def solve(self):
-        self.init_gen_0()
+        x_result, y_result = [], []
+        fitness = []
+        
+        self.create_gen_0()
         self.fitness_update()              
         self.create_new_gen()
-        for i in range(self.iterations):
+        startTime = timeit.default_timer()
+        while True: # for i in range(self.iterations):
             self.fitness_update()
-            print(list(map(self.binary32_to_float, [self.current_gen[g] for g in np.argsort(self.fitness_lst)[-1:]]))[0])
+            best_index = np.argsort(self.fitness)[-1]
+            best_binary = self.current_gen[best_index] 
+            best_result = self.binary32_to_float(best_binary)
+            
+            x_result.append(best_result)
+            y_result.append(self.y_return(best_result))
+            fitness.append( self.fitness[best_index])
+            
+            print('Result: ', best_result, '  ', \
+                          'y: ', self.y_return(best_result), ' ',  'Fitness: ', self.fitness[best_index])
             self.create_new_gen()
             
-        
-        
-
-
-# if __name__ == '__main__':
-#     init_gen_0()
-#     fitness_update()
-    
-#     create_new_gen()
-#     for i in range(iterations):
-#         fitness_update()
-#         print(list(map(binary32_to_float, [current_gen[g] for g in np.argsort(fitness_lst)[-1:]]))[0])
-#         create_new_gen()
+            execution_time = timeit.default_timer() - startTime
+            
+            if execution_time > 10:
+                print('%.3f'% execution_time + 's')
+                break
+            
+        return x_result, y_result, fitness, execution_time
+            
+            
+            
+            
+            

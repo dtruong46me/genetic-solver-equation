@@ -1,4 +1,8 @@
-from solver import Genetic_Algorithm
+from solver import Solver
 
-solver = Genetic_Algorithm(min_range=-7, max_range=7)
-solver.solve()
+equation = input('> Enter the equation: ') 
+min_range = int(input("Enter min range: "))
+max_range = int(input("Enter max range: "))
+
+solver = Solver(equation=equation, min_range= min_range, max_range=max_range)
+solver.solve()  

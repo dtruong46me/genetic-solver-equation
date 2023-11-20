@@ -12,13 +12,12 @@ from input_handling.core.lexer import Lexer
 import numpy as np
 from random import random, randint, sample
 
-class Genetic_Algorithm:
-    def __init__(self, min_range = -1e10, max_range = 1e10):
+class Solver:
+    def __init__(self, equation=None, min_range = -1e5, max_range = 1e5):
         self.min_range = min_range
         self.max_range = max_range
-        self.equation = input('> Enter the equation: ') 
-        if self.equation == '':
-            print('Can not calculate empty equations')
+        self.equation = equation
+        if not self.equation:
             exit(0)
     
         self.mutation_rate = 0.2
@@ -236,10 +235,10 @@ class Genetic_Algorithm:
             execution_time = timeit.default_timer() - startTime
             
             if execution_time > 10:
-                print('%.3f'% execution_time + 's')
+                print('%.5f'% execution_time + ' s')
                 break
             
-        return x_result, y_result, fitness, execution_time
+        return x_result, y_result, fitness, str('%.5f' % execution_time) + ' s'
             
             
             

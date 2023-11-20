@@ -7,7 +7,7 @@ import gui_solver
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 
 class ResultGUI:
-    def __init__(self, window, input_data=None) -> None:
+    def __init__(self, window, input_data="") -> None:
         # Handle assets file path
         self.output_path = Path(__file__).parent
         self.assets_path = self.output_path / Path(r"../assets")
@@ -17,6 +17,9 @@ class ResultGUI:
         self.window.geometry("1000x600")
         self.window.configure(bg="#FFF")
         self.window.title("Genetic Solver Equation")
+
+        self.icon_path = PhotoImage(file=self.relative_to_assets("helax__x.png"))
+        self.window.iconphoto(True, self.icon_path)
 
         self.canvas = Canvas(
             window,
@@ -91,14 +94,36 @@ class ResultGUI:
         )
 
         # Input
-        self.canvas.create_text(
-            279.0,
-            286.0,
-            anchor="nw",
-            text=input_data,
-            fill="#031F4B",
-            font=("Consolas Bold", 16 * -1)
-        )
+        # Switch case for each length of input data
+        if len(input_data) <= 50:
+            self.canvas.create_text(
+                279.0,
+                286.0,
+                anchor="nw",
+                text=input_data,
+                fill="#031F4B",
+                font=("Consolas Bold", 16 * -1)
+            )
+        
+        if len(input_data) > 50 and len(input_data) <= 67:
+            self.canvas.create_text(
+                269.0,
+                290.0,
+                anchor="nw",
+                text=input_data,
+                fill="#031F4B",
+                font=("Consolas Bold", 12 * -1)
+            )
+        
+        if len(input_data) > 67:
+            self.canvas.create_text(
+                269.0,
+                290.0,
+                anchor="nw",
+                text=input_data[:65] + "..",
+                fill="#031F4B",
+                font=("Consolas Bold", 12 * -1)
+            )
 
         # Output
         self.canvas.create_text(
@@ -153,6 +178,9 @@ class ResultGUI:
             width=123.0,
             height=47.0
         )
+
+        self.continue_btn.bind("<Return>", lambda event: self.handle_continue())
+        self.continue_btn.focus_set()
     
     def handle_backhome(self):
         self.current_gui = None

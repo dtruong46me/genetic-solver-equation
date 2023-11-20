@@ -11,6 +11,7 @@ class VisualizeGUI:
         # Handle assets file path
         self.output_path = Path(__file__).parent
         self.assets_path = self.output_path / Path(r"../assets")
+        self.vizs_path = self.output_path / Path(r"../assets/viz")
 
         self.window = window
 
@@ -142,6 +143,13 @@ class VisualizeGUI:
             image=self.x_value_png
         )
 
+        self.x_viz_img = PhotoImage(file=self.relative_to_viz("x.png"))
+        self.x_viz = self.canvas.create_image(
+            297.0,
+            341.0,
+            image=self.x_viz_img
+        )
+
         # y_value frame
         self.y_value_png = PhotoImage(
             file=self.relative_to_assets("frame_viz.png"))
@@ -149,6 +157,13 @@ class VisualizeGUI:
             702.0,
             341.0,
             image=self.y_value_png
+        )
+
+        self.y_viz_img = PhotoImage(file=self.relative_to_viz("y.png"))
+        self.y_viz = self.canvas.create_image(
+            702.0,
+            341.0,
+            image=self.y_viz_img
         )
 
         # "Exit" BUTTON
@@ -212,6 +227,9 @@ class VisualizeGUI:
 
     def relative_to_assets(self, path: str) -> Path:
         return self.assets_path / Path(path)
+    
+    def relative_to_viz(self, path: str) -> Path:
+        return self.vizs_path / Path(path)
     
 
 if __name__ == '__main__':

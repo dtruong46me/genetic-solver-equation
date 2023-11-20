@@ -159,7 +159,7 @@ class SolverGUI:
         for widget in self.window.winfo_children():
             widget.destroy()
 
-        self.result_gui = gui_result.ResultGUI(self.window, input_data, output_data, exc_time)
+        self.result_gui = gui_result.ResultGUI(self.window, input_data, output_data, exc_time, results[0], results[1])
         self.current_gui = self.result_gui
     
     def handle_backhome(self):

@@ -1,17 +1,26 @@
-
+import os
+import sys
 
 from pathlib import Path
 import gui_menu
 import gui_solver
 import gui_visualize
 
+path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, path)
+
+from main.visualize import *
+
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 
 class ResultGUI:
-    def __init__(self, window, input_data="", output_data="", exc_time="") -> None:
+    def __init__(self, window, input_data="", output_data="", exc_time="", x_results=[], y_results=[]) -> None:
         # Handle assets file path
         self.output_path = Path(__file__).parent
         self.assets_path = self.output_path / Path(r"../assets")
+
+        self.x_results = x_results
+        self.y_results = y_results
 
         self.window = window
         self.input_data = input_data
@@ -197,7 +206,8 @@ class ResultGUI:
 
     def handle_visualize(self):
         if self.input_data != "":
-            print()
+            visualizer = Visualize()
+            visualizer.plot_result(self.x_results, self.y_results)
 
         self.current_gui = None
         for widget in self.window.winfo_children():

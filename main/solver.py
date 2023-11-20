@@ -229,8 +229,8 @@ class Genetic_Algorithm:
             y_result.append(self.y_return(best_result))
             fitness.append( self.fitness[best_index])
             
-            # print('Result: ', best_result, '  ', \
-            #               'y: ', self.y_return(best_result), ' ',  'Fitness: ', self.fitness[best_index])
+            print('Result: ', best_result, '  ', \
+                          'y: ', self.y_return(best_result), ' ',  'Fitness: ', self.fitness[best_index])
             self.create_new_gen()
             
             execution_time = timeit.default_timer() - startTime

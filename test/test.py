@@ -1,7 +1,7 @@
 import sys
 import os
-from solving import Genetic_Algorithm
-from visualization.visualize import Visualize
+from main.solving import Genetic_Algorithm
+from main.visualize import Visualize
 
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, path)

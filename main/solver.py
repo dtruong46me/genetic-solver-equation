@@ -223,6 +223,8 @@ class Solver:
             best_index = np.argsort(self.fitness)[-1]
             best_binary = self.current_gen[best_index] 
             best_result = self.binary32_to_float(best_binary)
+            if abs(best_result) < 1e-10:
+                best_result = 0
             
             x_result.append(best_result)
             y_result.append(self.y_return(best_result))

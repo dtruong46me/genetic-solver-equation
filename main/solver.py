@@ -226,19 +226,19 @@ class Solver:
             
             x_result.append(best_result)
             y_result.append(self.y_return(best_result))
-            fitness.append( self.fitness[best_index])
+            fitness.append(self.fitness[best_index])
             
             print('Result: ', best_result, '  ', \
                           'y: ', self.y_return(best_result), ' ',  'Fitness: ', self.fitness[best_index])
             self.create_new_gen()
-            
+
             execution_time = timeit.default_timer() - startTime
             
-            if execution_time > 10:
-                print('%.5f'% execution_time + ' s')
+            if (len(x_result) >= 2) and (len(fitness) >= 2) and (abs(x_result[-1] - x_result[-2]) <= 1e-9) and (fitness[-1] > 0.999) or execution_time > 10:
+                print('%.3f'% (execution_time*1000) + 'ms')
                 break
             
-        return x_result, y_result, fitness, str('%.5f' % execution_time) + ' s'
+        return x_result, y_result, fitness, execution_time
             
             
             

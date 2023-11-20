@@ -223,22 +223,27 @@ class Solver:
             best_index = np.argsort(self.fitness)[-1]
             best_binary = self.current_gen[best_index] 
             best_result = self.binary32_to_float(best_binary)
+            if abs(best_result) < 1e-8:
+                best_result = 0
             
             x_result.append(best_result)
             y_result.append(self.y_return(best_result))
-            fitness.append( self.fitness[best_index])
+            fitness.append(self.fitness[best_index])
             
             print('Result: ', best_result, '  ', \
                           'y: ', self.y_return(best_result), ' ',  'Fitness: ', self.fitness[best_index])
             self.create_new_gen()
-            
+
             execution_time = timeit.default_timer() - startTime
             
-            if execution_time > 10:
-                print('%.5f'% execution_time + ' s')
+            if (len(x_result) >= 2) and (len(fitness) >= 2) and (abs(x_result[-1] - x_result[-2]) <= 1e-9) and (fitness[-1] > 0.999) or execution_time > 10:
+                print('%.3f'% (execution_time*1000) + 'ms')
                 break
             
-        return x_result, y_result, fitness, str('%.5f' % execution_time) + ' s'
+        if execution_time > 10:
+            x_result = ["No solution!"]
+
+        return x_result, y_result, fitness, str('%.3f' % (execution_time*1000)) + 'ms'
             
             
             

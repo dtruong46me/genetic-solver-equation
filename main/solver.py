@@ -238,7 +238,10 @@ class Solver:
                 print('%.3f'% (execution_time*1000) + 'ms')
                 break
             
-        return x_result, y_result, fitness, execution_time
+        if execution_time > 10:
+            x_result = ["No solution!"]
+
+        return x_result, y_result, fitness, str('%.5f' % (execution_time*1000)) + 'ms'
             
             
             

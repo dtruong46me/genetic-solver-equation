@@ -144,13 +144,15 @@ class SolverGUI:
 
     def handle_submit(self):
         input_data = self.entry.get()
+        output_data = ""
+        exc_time = ""
 
         if input_data != "":
             solver = Solver(equation=input_data)
 
             results = solver.solve()
 
-            output_data = results[0][-1]
+            output_data = str(results[0][-1])
             exc_time = results[3]
 
         self.current_gui = None

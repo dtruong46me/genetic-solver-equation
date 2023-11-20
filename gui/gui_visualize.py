@@ -3,19 +3,16 @@
 from pathlib import Path
 import gui_menu
 import gui_solver
-import gui_visualize
 
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 
-class ResultGUI:
-    def __init__(self, window, input_data="", output_data="", exc_time="") -> None:
+class VisualizeGUI:
+    def __init__(self, window, input_data="", output_data="") -> None:
         # Handle assets file path
         self.output_path = Path(__file__).parent
         self.assets_path = self.output_path / Path(r"../assets")
 
         self.window = window
-        self.input_data = input_data
-        self.output_data = output_data
 
         self.window.geometry("1000x600")
         self.window.configure(bg="#FFF")
@@ -39,18 +36,9 @@ class ResultGUI:
         self.logo_img = PhotoImage(
             file=self.relative_to_assets("helax__logo.png"))
         self.helax_logo = self.canvas.create_image(
-            501.0,
-            126.0,
+            500.0,
+            88.0,
             image=self.logo_img
-        )
-
-        # Genetic Solver Equation
-        self.gse_img = PhotoImage(
-            file=self.relative_to_assets("gse__name.png"))
-        self.gse_text = self.canvas.create_image(
-            499.0,
-            187.0,
-            image=self.gse_img
         )
 
         # Back to Home
@@ -87,77 +75,93 @@ class ResultGUI:
             height=52.0
         )
 
-        # Result Frame
-        self.result_frame_img = PhotoImage(
-            file=self.relative_to_assets("result_frame.png"))
-        self.result_frame = self.canvas.create_image(
-            499.0,
-            355.0,
-            image=self.result_frame_img
+        # Input
+        self.input_frame_png = PhotoImage(
+            file=self.relative_to_assets("frame_input.png"))
+        self.input_frm = self.canvas.create_image(
+            378.0,
+            152.0,
+            image=self.input_frame_png
         )
 
-        # Input
-        if len(self.input_data) <= 50:
+        if len(input_data) <= 50:
             self.canvas.create_text(
-                279.0,
-                286.0,
+                162.0,
+                146.0,
                 anchor="nw",
-                text=self.input_data,
-                fill="#031F4B",
+                text=input_data,
+                fill="#6497B1",
                 font=("Consolas Bold", 16 * -1)
             )
         
-        if len(self.input_data) > 50 and len(self.input_data) <= 67:
+        if len(input_data) > 50:
             self.canvas.create_text(
-                269.0,
-                290.0,
+                162.0,
+                146.0,
                 anchor="nw",
-                text=self.input_data,
-                fill="#031F4B",
-                font=("Consolas Bold", 12 * -1)
-            )
-        
-        if len(self.input_data) > 67:
-            self.canvas.create_text(
-                269.0,
-                290.0,
-                anchor="nw",
-                text=self.input_data[:65] + "..",
-                fill="#031F4B",
-                font=("Consolas Bold", 12 * -1)
+                text=input_data[:-2] + "..",
+                fill="#6497B1",
+                font=("Consolas Bold", 16 * -1)
             )
 
         # Output
-        self.canvas.create_text(
-            279.0,
-            363.0,
-            anchor="nw",
-            text=self.output_data,
-            fill="#031F4B",
-            font=("Consolas Bold", 16 * -1)
+        self.output_frame_png = PhotoImage(
+            file=self.relative_to_assets("frame_output.png"))
+        self.output_frm = self.canvas.create_image(
+            744.0,
+            152.0,
+            image=self.output_frame_png
         )
 
-        # Time
-        self.canvas.create_text(
-            279.0,
-            440.0,
-            anchor="nw",
-            text=exc_time,
-            fill="#031F4B",
-            font=("Consolas Bold", 16 * -1)
+        if len(output_data) <= 17:
+            self.canvas.create_text(
+                666.0,
+                146.0,
+                anchor="nw",
+                text=output_data[:-2] + "..",
+                fill="#6497B1",
+                font=("Consolas Bold", 16 * -1)
+            )
+        
+        if len(output_data) > 17:
+            self.canvas.create_text(
+                666.0,
+                146.0,
+                anchor="nw",
+                text=output_data[:-2] + "..",
+                fill="#6497B1",
+                font=("Consolas Bold", 16 * -1)
+            )
+
+        # x_value frame
+        self.x_value_png = PhotoImage(
+            file=self.relative_to_assets("frame_viz.png"))
+        self.x_value_frame = self.canvas.create_image(
+            297.0,
+            341.0,
+            image=self.x_value_png
         )
 
-        # "Visualize" BUTTON
-        self.viz_img = PhotoImage(
-            file=self.relative_to_assets("btn__visualize.png"))
-        self.viz_btn = Button(
-            image=self.viz_img,
+        # y_value frame
+        self.y_value_png = PhotoImage(
+            file=self.relative_to_assets("frame_viz.png"))
+        self.y_value_frame = self.canvas.create_image(
+            702.0,
+            341.0,
+            image=self.y_value_png
+        )
+
+        # "Exit" BUTTON
+        self.exit_img = PhotoImage(
+            file=self.relative_to_assets("btn__exit_big.png"))
+        self.exit_btn = Button(
+            image=self.exit_img,
             borderwidth=0,
             highlightthickness=0,
-            command=self.handle_visualize,
+            command=self.handle_exit,
             relief="flat"
         )
-        self.viz_btn.place(
+        self.exit_btn.place(
             x=364.0,
             y=506.0,
             width=123.0,
@@ -195,16 +199,8 @@ class ResultGUI:
     def handle_setting(self):
         print()
 
-    def handle_visualize(self):
-        if self.input_data != "":
-            print()
-
-        self.current_gui = None
-        for widget in self.window.winfo_children():
-            widget.destroy()
-
-        self.visualize_gui = gui_visualize.VisualizeGUI(self.window, self.input_data, self.output_data)
-        self.current_gui = self.visualize_gui
+    def handle_exit(self):
+        self.window.destroy()
     
     def handle_continue(self):
         self.current_gui = None
@@ -220,6 +216,6 @@ class ResultGUI:
 
 if __name__ == '__main__':
     window = Tk()
-    menu = ResultGUI(window)
+    menu = VisualizeGUI(window)
     window.resizable(False, False)
     window.mainloop()

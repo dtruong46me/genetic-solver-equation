@@ -119,17 +119,28 @@ class Genetic_Algorithm:
         splited_eq = self.equation.replace('x', format(x, '.5f')).split('=')
         if len(splited_eq) == 1: 
             left_side = splited_eq[0].strip()
+            right_side = splited_eq[1].strip()
         else:
             left_side = splited_eq[0].strip()
+            right_side = splited_eq[1].strip()
         
         leftLexer = Lexer(left_side)
+        rightLexer = Lexer(right_side)
+
         left_tokens = leftLexer.generate_tokens()
+        right_tokens = rightLexer.generate_tokens()
+
         left_parser= Parser(left_tokens)
+        right_parser = Parser(right_tokens)
+
         leftTree = left_parser.parse()
-        left_interpreter = Interpreter()
-        y = left_interpreter.visit(leftTree)
-        
-        return y.value
+        rightTree = right_parser.parse()
+
+        interpreter = Interpreter()
+        left = interpreter.visit(leftTree)
+        right = interpreter.visit(rightTree)
+
+        return left.value - right.value
         
         
     # creating a new generation
@@ -227,19 +238,19 @@ class Genetic_Algorithm:
             
             x_result.append(best_result)
             y_result.append(self.y_return(best_result))
-            fitness.append( self.fitness[best_index])
+            fitness.append(self.fitness[best_index])
             
             # print('Result: ', best_result, '  ', \
-            #               'y: ', self.y_return(best_result), ' ',  'Fitness: ', self.fitness[best_index])
+                        #   'y: ', self.y_return(best_result), ' ',  'Fitness: ', self.fitness[best_index])
             self.create_new_gen()
-            
+
             execution_time = timeit.default_timer() - startTime
             
-            if execution_time > 10:
-                print('%.3f'% execution_time + 's')
+            if (len(x_result) >= 2) and (len(fitness) >= 2) and (abs(x_result[-1] - x_result[-2]) <= 1e-9) and (fitness[-1] > 0.999) or execution_time > 10:
+                print('%.3f'% (execution_time*1000) + 'ms')
                 break
             
-        return x_result, y_result, fitness, execution_time
+        return x_result, y_result, fitness, execution_time*1000
             
             
             

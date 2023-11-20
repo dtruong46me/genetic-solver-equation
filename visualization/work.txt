@@ -1,0 +1,28 @@
+'''
+    *[14/11] Genetic_Algorithm(equation, min_range, max_range):
+    *[14/11] Method: solve -> Return [x_result: list, y_result, fitness: list, execution_time: (sau 8 thập phân) + ms]
+    - Attribute (min_range: -10^5, max_range: 10^5)
+    - Method: solve_with_range(min_range, max_range) -> Return [x_result: list, y_result, fitness: list, execution_time: (sau 8 thập phân) + ms] để visualize
+    - Sửa thành ĐK while loop, giới hạn time (5-8s thì dừng)
+    - Sửa ĐK vô nghiệm (fitness < 0.999)
+    - Sửa nhập sai / handle exception -> Return "Invalid Syntax!"
+    - Bỏ "=0" ở cuối
+    - sqrt, log, ln(x) khi x<0 -> vô cùng xong p chạy tiếp
+
+    - Visualize: 2 biểu đồ [16/11]
+    main/visualize.py class Visualize(x_result: list, y_result, fitness: list)
+        + iteration và x -> x.png 
+        + iteration và y -> y.png
+        + iteration và fitness -> fitness.png
+    (Để hết vào assets/viz)
+
+    - GUI [17/11]
+        + Solver GUI + Result GUI [16/11 merge vào master]
+        + Thêm nút visualize + GUI visualize
+        + GUI setting: người dùng custom range
+        + Viết thêm test case
+        + Thêm text label ("Solving...")
+        
+    '''
+
+    

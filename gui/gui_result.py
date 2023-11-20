@@ -7,7 +7,7 @@ import gui_solver
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 
 class ResultGUI:
-    def __init__(self, window, input_data="") -> None:
+    def __init__(self, window, input_data="", output_data="", exc_time="") -> None:
         # Handle assets file path
         self.output_path = Path(__file__).parent
         self.assets_path = self.output_path / Path(r"../assets")
@@ -130,7 +130,7 @@ class ResultGUI:
             279.0,
             363.0,
             anchor="nw",
-            text="x=0.0000000001",
+            text=output_data,
             fill="#031F4B",
             font=("Consolas Bold", 16 * -1)
         )
@@ -140,7 +140,7 @@ class ResultGUI:
             279.0,
             440.0,
             anchor="nw",
-            text="0.00423ms",
+            text=exc_time,
             fill="#031F4B",
             font=("Consolas Bold", 16 * -1)
         )

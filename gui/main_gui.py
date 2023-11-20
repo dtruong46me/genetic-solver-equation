@@ -1,4 +1,3 @@
-
 from tkinter import Tk
 
 from gui_menu import MenuGUI

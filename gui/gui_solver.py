@@ -1,7 +1,14 @@
 
+import sys
+import os
 from pathlib import Path
 import gui_menu
 import gui_result
+
+path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, path)
+
+from main.solver import *
 
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Toplevel
 
@@ -136,15 +143,23 @@ class SolverGUI:
         )
 
     def handle_submit(self):
-        # Lấy dữ liệu từ Entry
         input_data = self.entry.get()
+        output_data = ""
+        exc_time = ""
+
+        if input_data != "":
+            solver = Solver(equation=input_data)
+
+            results = solver.solve()
+
+            output_data = str(results[0][-1])
+            exc_time = results[3]
 
         self.current_gui = None
         for widget in self.window.winfo_children():
             widget.destroy()
 
-        # Tạo cửa sổ ResultGUI và truyền dữ liệu
-        self.result_gui = gui_result.ResultGUI(self.window, input_data)
+        self.result_gui = gui_result.ResultGUI(self.window, input_data, output_data, exc_time, results[0], results[1])
         self.current_gui = self.result_gui
     
     def handle_backhome(self):

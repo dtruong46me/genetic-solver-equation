@@ -19,6 +19,9 @@ class AboutGUI:
         self.window.configure(bg="#FFF")
         self.window.title("Genetic Solver Equation")
 
+        self.icon_path = PhotoImage(file=self.relative_to_assets("helax__x.png"))
+        self.window.iconphoto(True, self.icon_path)
+
         self.canvas = Canvas(
             window,
             bg = "#FFF",
@@ -46,6 +49,8 @@ class AboutGUI:
             width=171.0,
             height=52.0
         )
+        self.backhome_btn.bind("<Return>", lambda event: self.handle_backhome())
+        self.backhome_btn.focus_set()
 
         # HelaX Logo
         self.logo_img = PhotoImage(
@@ -170,13 +175,13 @@ class AboutGUI:
         webbrowser.open("https://www.linkedin.com/")
     
     def handle_mail(self):
-        receiver_email = "dtruong46.me@example.com"
+        receiver_email = "truong.pd214937@sis.hust.edu.vn; quy.dnc214927@sis.hust.edu.vn; truc.nt214936@sis.hust.edu.vn;"
         subject = "[HELAX] Enter your title..."
 
         body = "### Enter your message..."
 
         message = MIMEMultipart()
-        message["From"] = "dtruong46.me@example.com"
+        message["From"] = "truong.pd214937@sis.hust.edu.vn; quy.dnc214927@sis.hust.edu.vn; truc.nt214936@sis.hust.edu.vn;"
         message["To"] = receiver_email
         message["Subject"] = subject
 

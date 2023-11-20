@@ -12,12 +12,13 @@ from input_handling.core.lexer import Lexer
 import numpy as np
 from random import random, randint, sample
 
-class Solver:
-    def __init__(self, equation=None, min_range = -1e5, max_range = 1e5):
+class Genetic_Algorithm:
+    def __init__(self, min_range = -1e10, max_range = 1e10):
         self.min_range = min_range
         self.max_range = max_range
-        self.equation = equation
-        if not self.equation:
+        self.equation = input('> Enter the equation: ') 
+        if self.equation == '':
+            print('Can not calculate empty equations')
             exit(0)
     
         self.mutation_rate = 0.2
@@ -118,17 +119,28 @@ class Solver:
         splited_eq = self.equation.replace('x', format(x, '.5f')).split('=')
         if len(splited_eq) == 1: 
             left_side = splited_eq[0].strip()
+            right_side = splited_eq[1].strip()
         else:
             left_side = splited_eq[0].strip()
+            right_side = splited_eq[1].strip()
         
         leftLexer = Lexer(left_side)
+        rightLexer = Lexer(right_side)
+
         left_tokens = leftLexer.generate_tokens()
+        right_tokens = rightLexer.generate_tokens()
+
         left_parser= Parser(left_tokens)
+        right_parser = Parser(right_tokens)
+
         leftTree = left_parser.parse()
-        left_interpreter = Interpreter()
-        y = left_interpreter.visit(leftTree)
-        
-        return y.value
+        rightTree = right_parser.parse()
+
+        interpreter = Interpreter()
+        left = interpreter.visit(leftTree)
+        right = interpreter.visit(rightTree)
+
+        return left.value - right.value
         
         
     # creating a new generation
@@ -228,8 +240,8 @@ class Solver:
             y_result.append(self.y_return(best_result))
             fitness.append(self.fitness[best_index])
             
-            print('Result: ', best_result, '  ', \
-                          'y: ', self.y_return(best_result), ' ',  'Fitness: ', self.fitness[best_index])
+            # print('Result: ', best_result, '  ', \
+                        #   'y: ', self.y_return(best_result), ' ',  'Fitness: ', self.fitness[best_index])
             self.create_new_gen()
 
             execution_time = timeit.default_timer() - startTime
@@ -238,10 +250,7 @@ class Solver:
                 print('%.3f'% (execution_time*1000) + 'ms')
                 break
             
-        if execution_time > 10:
-            x_result = ["No solution!"]
-
-        return x_result, y_result, fitness, str('%.5f' % (execution_time*1000)) + 'ms'
+        return x_result, y_result, fitness, execution_time*1000
             
             
             

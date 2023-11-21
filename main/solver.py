@@ -26,13 +26,13 @@ class Solver:
         self.random_group = 8
         
         self.population = 200
-        
+        self.genome_length = 32
 
-        self.gen_num = 0
         self.current_gen = []
         self.next_gen = []
         self.fitness = []
-
+        self.counter = 0
+        
         # selecting the best child from a group of random_group
     def random_selection(self):
         random_child = sample(range(len(self.current_gen)), self.random_group)

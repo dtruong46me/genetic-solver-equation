@@ -236,7 +236,7 @@ class Solver:
 
             execution_time = timeit.default_timer() - startTime
             
-            if (len(x_result) >= 2) and (len(fitness) >= 2) and (abs(x_result[-1] - x_result[-2]) <= 1e-9) and (fitness[-1] > 0.999) or execution_time > 10:
+            if (len(x_result) >= 2) and (len(fitness) >= 2) and (abs(x_result[-1] - x_result[-2]) <= 1e-9) and (fitness[-1] > 0.9999) or execution_time > 10:
                 print('%.3f'% (execution_time*1000) + 'ms')
                 break
             

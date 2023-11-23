@@ -146,6 +146,7 @@ class SolverGUI:
         input_data = self.entry.get()
         output_data = ""
         exc_time = ""
+        results = [[], []]
 
         if input_data != "":
             solver = Solver(equation=input_data)

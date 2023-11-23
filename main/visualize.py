@@ -15,7 +15,8 @@ class Visualize:
         title_font = {'fontname': 'Consolas', 'size': 9, 'color': '#035B96'}
         tick_font = {'fontname': 'Consolas', 'size': 8, 'color': '#035B96'}
         
-        save_path = r"assets/viz/"
+        # my_path = os.path.abspath(__file__)
+        save_path = r"genetic-solver-equation/assets/viz/"
         os.makedirs(save_path, exist_ok=True)
 
         width, height = 369, 276
@@ -35,7 +36,7 @@ class Visualize:
         # Plot for y
         plt.figure(figsize=(width/dpi, height/dpi), dpi=dpi)
 
-        plt.plot([i for i in range(1, len(x_result) + 1)], y_result)
+        plt.plot([i for i in range(1, len(y_result) + 1)], y_result)
         plt.title('The values of \'y\' in each generation', title_font)
 
         plt.xticks(**tick_font)

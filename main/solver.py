@@ -215,7 +215,7 @@ class Solver:
             best_index = np.argsort(self.fitness)[-1]
             best_binary = self.current_gen[best_index] 
             best_result = self.binary32_to_float(best_binary)
-            if abs(best_result) < 1e-8:
+            if abs(best_result) < 1e-5:
                 best_result = 0
             
             x_result.append(best_result)
@@ -234,6 +234,11 @@ class Solver:
             
         if execution_time > 10:
             x_result = ["No solution!"]
+        
+        if x_result[0] != "No solution!":
+            for i in range(len(x_result)):
+                x = x_result[i]
+                if abs(x) < 1e-5: x_result[i] = 0
 
         return x_result, y_result, fitness, str('%.3f' % (execution_time*1000)) + 'ms'
             

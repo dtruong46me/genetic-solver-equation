@@ -22,25 +22,17 @@ class Solver:
     
         self.mutation_rate = 0.2
         self.elite = True
-        self.elite_group = 4
-        if self.elite_group % 2 != 0:
-            print("elitism_group must be an even number")
-            exit(0)
+        self.elite_group = 32
         self.random_group = 8
         
         self.population = 200
-        
+        self.genome_length = 32
 
-        self.gen_num = 0
         self.current_gen = []
         self.next_gen = []
         self.fitness = []
-        self.distance_from_target = 1000
-        self.genome_length = 32
-        self.iterations = 1100
         self.counter = 0
-
-
+        
         # selecting the best child from a group of random_group
     def random_selection(self):
         random_child = sample(range(len(self.current_gen)), self.random_group)
@@ -218,12 +210,12 @@ class Solver:
         self.fitness_update()              
         self.create_new_gen()
         startTime = timeit.default_timer()
-        while True: # for i in range(self.iterations):
+        while True: 
             self.fitness_update()
             best_index = np.argsort(self.fitness)[-1]
             best_binary = self.current_gen[best_index] 
             best_result = self.binary32_to_float(best_binary)
-            if abs(best_result) < 1e-8:
+            if abs(best_result) < 1e-5:
                 best_result = 0
             
             x_result.append(best_result)
@@ -242,6 +234,11 @@ class Solver:
             
         if execution_time > 10:
             x_result = ["No solution!"]
+        
+        if x_result[0] != "No solution!":
+            for i in range(len(x_result)):
+                x = x_result[i]
+                if abs(x) < 1e-5: x_result[i] = 0
 
         return x_result, y_result, fitness, str('%.3f' % (execution_time*1000)) + 'ms'
             

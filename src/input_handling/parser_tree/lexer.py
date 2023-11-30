@@ -5,7 +5,7 @@ import sys
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, path)
 
-from core.tokens import Token, TokenType
+from parser_tree.tokens import Token, TokenType
 
 
 WHITESPACE = ' \n\t\'\"'

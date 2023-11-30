@@ -4,9 +4,10 @@ import sys
 import os
 
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+path = os.path.abspath(os.path.join(path, ".."))
 sys.path.insert(0, path)
 
-from rpn.input import *
+from input_handling.reverse_polish.input import *
 
 class TestReversePolishNotation(unittest.TestCase):
     def test_reverse_polish_notation(self):

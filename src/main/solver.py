@@ -5,10 +5,10 @@ import math
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, path)
 
-from input_handling.core.utils import *
-from input_handling.core.interpreter import Interpreter
-from input_handling.core.parser_ import Parser
-from input_handling.core.lexer import Lexer
+from input_handling.parser_tree.utils import *
+from input_handling.parser_tree.interpreter import Interpreter
+from input_handling.parser_tree.parser_ import Parser
+from input_handling.parser_tree.lexer import Lexer
 import numpy as np
 from random import random, randint, sample
 

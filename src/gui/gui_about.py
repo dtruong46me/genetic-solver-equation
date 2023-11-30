@@ -7,7 +7,7 @@ from email.mime.multipart import MIMEMultipart
 
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 
-class AboutGUI:
+class AboutGUI():
     def __init__(self, window) -> None:
         # Handle assets file path
         self.output_path = Path(__file__).parent

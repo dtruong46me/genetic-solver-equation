@@ -3,11 +3,13 @@ import os
 import sys
 
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+path = os.path.abspath(os.path.join(path, ".."))
+
 sys.path.insert(0, path)
 
-from core.nodes import *
-from core.interpreter import Interpreter
-from core.values import Number
+from input_handling.parser_tree.nodes import *
+from input_handling.parser_tree.interpreter import Interpreter
+from input_handling.parser_tree.values import Number
 
 class TestInterpreter(unittest.TestCase):
 

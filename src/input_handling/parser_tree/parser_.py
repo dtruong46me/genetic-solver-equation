@@ -1,5 +1,5 @@
-from core.tokens import TokenType
-from core.nodes import *
+from parser_tree.tokens import TokenType
+from parser_tree.nodes import *
 import os
 import sys
 

@@ -3,10 +3,11 @@ import os
 import sys
 
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+path = os.path.abspath(os.path.join(path, ".."))
 sys.path.insert(0, path)
 
-from core.tokens import Token, TokenType
-from core.lexer import Lexer
+from input_handling.parser_tree.tokens import Token, TokenType
+from input_handling.parser_tree.lexer import Lexer
 
 class TestLexer(unittest.TestCase):
 	

@@ -8,34 +8,16 @@ import gui_solver
 import gui_contact
 import gui_about
 import gui_how2use
+from gse_gui import GSE_GUI
 
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Toplevel
 
-class MenuGUI:
+class MenuGUI(GSE_GUI):
     def __init__(self, window) -> None:
-        # Handle assets file path
-        self.output_path = Path(__file__).parent
-        self.assets_path = self.output_path / Path(r"../assets")
+        super(MenuGUI, self).__init__(window)
 
-        self.window = window
-
-        self.window.geometry("1000x600")
-        self.window.configure(bg="#FFF")
-        self.window.title("Genetic Solver Equation")
-
-        self.icon_path = PhotoImage(file=self.relative_to_assets("helax__x.png"))
-        self.window.iconphoto(True, self.icon_path)
-
-        self.canvas = Canvas(
-            window,
-            bg = "#FFF",
-            height = 600,
-            width = 1000,
-            bd = 0,
-            highlightthickness = 0,
-            relief = "ridge"
-        )
-        self.canvas.place(x = 0, y = 0)
+        # Set invisible for "backhome_btn"
+        self.backhome_btn.place_forget()
 
         # HelaX LOGO
         self.logo_img = PhotoImage(
@@ -145,81 +127,6 @@ class MenuGUI:
             width=110.0,
             height=59.0
         )
-
-        # "Exit" BUTTON
-        self.exit_img = PhotoImage(
-            file=self.relative_to_assets("btn__exit.png"))
-        self.exit_btn = Button(
-            image=self.exit_img,
-            borderwidth=0,
-            background="#fff",
-            highlightthickness=0,
-            command=self.handle_exit,
-            relief="flat"
-        )
-        self.exit_btn.place(
-            x=849.0,
-            y=549.0,
-            width=76.0,
-            height=29.0
-        )
-
-        # "facebook" ICON
-        self.fb_img = PhotoImage(
-            file=self.relative_to_assets("icon__fb.png"))
-        self.fb_btn = Button(
-            image=self.fb_img,
-            borderwidth=0,
-            background="#fff",
-            highlightthickness=0,
-            command=self.handle_fb,
-            relief="flat"
-        )
-        self.fb_btn.place(
-            x=85.0,
-            y=533.0,
-            width=28.0,
-            height=28.0
-        )
-
-        # "in" ICON
-        self.in_img = PhotoImage(
-            file=self.relative_to_assets("icon__in.png"))
-        self.in_btn = Button(
-            image=self.in_img,
-            borderwidth=0,
-            background="#fff",
-            highlightthickness=0,
-            command=self.handle_in,
-            relief="flat"
-        )
-        self.in_btn.place(
-            x=133.0,
-            y=533.0,
-            width=28.0,
-            height=28.0
-        )
-
-        # "mail" ICON
-        self.mail_img = PhotoImage(
-            file=self.relative_to_assets("icon__mail.png"))
-        self.mail_btn = Button(
-            image=self.mail_img,
-            borderwidth=0,
-            background="#fff",
-            highlightthickness=0,
-            command=self.handle_mail,
-            relief="flat"
-        )
-        self.mail_btn.place(
-            x=182.0,
-            y=533.0,
-            width=28.0,
-            height=28.0
-        )
-    
-    def relative_to_assets(self, path: str) -> Path:
-        return self.assets_path / Path(path)
     
     def handle_how_to_use(self):
         self.current_gui = None
@@ -260,31 +167,6 @@ class MenuGUI:
         self.contact_gui = gui_contact.ContactGUI(self.window)
         self.current_gui = self.contact_gui
     
-    def handle_exit(self):
-        self.window.destroy()
-    
-    def handle_fb(self):
-        webbrowser.open("https://facebook.com/")
-    
-    def handle_in(self):
-        webbrowser.open("https://linkedin.com/")
-    
-    def handle_mail(self):
-        receiver_email = "truong.pd214937@sis.hust.edu.vn; quy.dnc214927@sis.hust.edu.vn; truc.nt214936@sis.hust.edu.vn;"
-        subject = "[HELAX] Enter your title..."
-
-        body = "### Enter your message..."
-
-        message = MIMEMultipart()
-        message["From"] = "truong.pd214937@sis.hust.edu.vn; quy.dnc214927@sis.hust.edu.vn; truc.nt214936@sis.hust.edu.vn;"
-        message["To"] = receiver_email
-        message["Subject"] = subject
-
-        message.attach(MIMEText(body, "plain"))
-
-        webbrowser.open(f"mailto:{receiver_email}?subject={subject}&body={body}")
-
-
 if __name__ == '__main__':
     window = Tk()
     menu = MenuGUI(window)

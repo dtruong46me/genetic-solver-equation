@@ -234,12 +234,11 @@ class Solver:
             
         if execution_time > 10:
             x_result = ["No solution!"]
-        
-        if x_result[0] != "No solution!":
-            for i in range(len(x_result)):
-                x = x_result[i]
-                if abs(x) < 1e-5: x_result[i] = 0
 
+        if x_result[0] != "No solution!":
+            if abs(x_result[-1]) < 1e-6:
+                x_result[-1] = 0
+        
         return x_result, y_result, fitness, str('%.3f' % (execution_time*1000)) + 'ms'
             
             

@@ -3,6 +3,9 @@ import os
 
 from tkinter import Tk
 
+import solver
+import visualize
+
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, path)
 

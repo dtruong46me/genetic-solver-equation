@@ -1,11 +1,12 @@
-
 from pathlib import Path
-import gui_menu
+
 import webbrowser
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+
+import gui_menu
 
 class GSE_GUI:
     def __init__(self, window) -> None:

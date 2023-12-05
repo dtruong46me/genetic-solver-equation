@@ -1,13 +1,13 @@
+import sys
+import os
 
 from pathlib import Path
 import webbrowser
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-import gui_solver
-import gui_contact
-import gui_about
-import gui_how2use
+path = os.path.abspath(os.path.dirname(__file__))
+sys.path.insert(0, path)
 from gse_gui import GSE_GUI
 
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Toplevel
@@ -134,7 +134,8 @@ class MenuGUI(GSE_GUI):
         for widget in self.window.winfo_children():
             widget.destroy()
 
-        self.how2use_gui = gui_how2use.How2UseGUI(self.window)
+        from gui_how2use import How2UseGUI
+        self.how2use_gui = How2UseGUI(self.window)
         self.current_gui = self.how2use_gui
     
     def handle_start(self):
@@ -143,7 +144,8 @@ class MenuGUI(GSE_GUI):
         for widget in self.window.winfo_children():
             widget.destroy()
 
-        self.solver_gui = gui_solver.SolverGUI(self.window)
+        from gui_solver import SolverGUI
+        self.solver_gui = SolverGUI(self.window)
         self.current_gui = self.solver_gui
 
     def handle_about(self):
@@ -152,7 +154,8 @@ class MenuGUI(GSE_GUI):
         for widget in self.window.winfo_children():
             widget.destroy()
 
-        self.about_gui = gui_about.AboutGUI(self.window)
+        from gui_about import AboutGUI
+        self.about_gui = AboutGUI(self.window)
         self.current_gui = self.about_gui
     
     def handle_faqs(self):
@@ -164,7 +167,8 @@ class MenuGUI(GSE_GUI):
         for widget in self.window.winfo_children():
             widget.destroy()
 
-        self.contact_gui = gui_contact.ContactGUI(self.window)
+        from gui_contact import ContactGUI
+        self.contact_gui = ContactGUI(self.window)
         self.current_gui = self.contact_gui
     
 if __name__ == '__main__':

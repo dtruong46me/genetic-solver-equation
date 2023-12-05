@@ -2,14 +2,6 @@ import os
 import sys
 
 from pathlib import Path
-import gui_menu
-import gui_solver
-import gui_visualize
-
-path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.insert(0, path)
-
-from main.visualize import *
 
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 
@@ -198,13 +190,17 @@ class ResultGUI:
         for widget in self.window.winfo_children():
             widget.destroy()
 
-        self.backhome_gui = gui_menu.MenuGUI(self.window)
+        from gui_menu import MenuGUI
+        self.backhome_gui = MenuGUI(self.window)
         self.current_gui = self.backhome_gui
 
     def handle_setting(self):
         print()
 
     def handle_visualize(self):
+        path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+        sys.path.insert(0, path)
+        from object.visualize import Visualize
         if self.input_data != "":
             visualizer = Visualize()
             visualizer.plot_result(self.x_results, self.y_results)
@@ -213,7 +209,8 @@ class ResultGUI:
         for widget in self.window.winfo_children():
             widget.destroy()
 
-        self.visualize_gui = gui_visualize.VisualizeGUI(self.window, self.input_data, self.output_data)
+        from gui_visualize import VisualizeGUI
+        self.visualize_gui = VisualizeGUI(self.window, self.input_data, self.output_data)
         self.current_gui = self.visualize_gui
     
     def handle_continue(self):
@@ -221,7 +218,8 @@ class ResultGUI:
         for widget in self.window.winfo_children():
             widget.destroy()
 
-        self.solver_gui = gui_solver.SolverGUI(self.window)
+        from gui_solver import SolverGUI
+        self.solver_gui = SolverGUI(self.window)
         self.current_gui = self.solver_gui
 
     def relative_to_assets(self, path: str) -> Path:

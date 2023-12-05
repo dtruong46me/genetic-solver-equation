@@ -3,11 +3,10 @@ import os
 
 from tkinter import Tk
 
-path = os.path.dirname(__file__)
-
+path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, path)
 
-from src.gui.gui_menu import MenuGUI
+from gui.gui_menu import MenuGUI
 
 if __name__ == '__main__':
     window = Tk()

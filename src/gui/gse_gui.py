@@ -6,8 +6,6 @@ from email.mime.multipart import MIMEMultipart
 
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 
-import gui_menu
-
 class GSE_GUI:
     def __init__(self, window) -> None:
         # Handle assets file path
@@ -137,7 +135,8 @@ class GSE_GUI:
         for widget in self.window.winfo_children():
             widget.destroy()
 
-        self.backhome_gui = gui_menu.MenuGUI(self.window)
+        from gui_menu import MenuGUI
+        self.backhome_gui = MenuGUI(self.window)
         self.current_gui = self.backhome_gui
     
     def handle_fb(self):

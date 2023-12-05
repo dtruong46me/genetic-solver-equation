@@ -2,13 +2,8 @@
 import sys
 import os
 from pathlib import Path
-import gui_menu
-import gui_result
-
-path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.insert(0, path)
-
-from main.solver import *
+from gui_menu import MenuGUI
+from gui_result import ResultGUI
 
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Toplevel
 
@@ -147,6 +142,9 @@ class SolverGUI:
         output_data = ""
         exc_time = ""
         results = [[], []]
+        path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+        sys.path.insert(0, path)
+        from object.solver import Solver
 
         if input_data != "":
             solver = Solver(equation=input_data)
@@ -160,7 +158,7 @@ class SolverGUI:
         for widget in self.window.winfo_children():
             widget.destroy()
 
-        self.result_gui = gui_result.ResultGUI(self.window, input_data, output_data, exc_time, results[0], results[1])
+        self.result_gui = ResultGUI(self.window, input_data, output_data, exc_time, results[0], results[1])
         self.current_gui = self.result_gui
     
     def handle_backhome(self):
@@ -168,7 +166,7 @@ class SolverGUI:
         for widget in self.window.winfo_children():
             widget.destroy()
 
-        self.backhome_gui = gui_menu.MenuGUI(self.window)
+        self.backhome_gui = MenuGUI(self.window)
         self.current_gui = self.backhome_gui
 
     def handle_setting(self):

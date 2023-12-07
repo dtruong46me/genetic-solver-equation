@@ -98,32 +98,36 @@ class Interpreter:
             return Number(math.sqrt(val))
         else:
             return Number(float("infinity"))
-            # raise Exception("Error: x must be a non-negative value")
+
 
     def visit_SinNode(self,node):
         val = self.visit(node.node).value
-        # if val > 6.3 or val < -6.3: return Number(float("infinity"))
+        if val > 1e5 or val < -1e-5: return Number(float("infinity"))
         return Number(math.sin(val))
     
     def visit_CosNode(self,node):
         val = self.visit(node.node).value
-        # if val > 6.3 or val < -6.3: return Number(float("infinity"))
+        if val > 1e5 or val < -1e-5: return Number(float("infinity"))
         return Number(math.sin((math.pi/2) - val))
     
     def visit_TanNode(self,node):
         val = self.visit(node.node).value
+        if val > 1e5 or val < -1e-5: return Number(float("infinity"))
         return Number(math.tan(val))
     
     def visit_CotNode(self,node):
         val = self.visit(node.node).value
+        if val > 1e5 or val < -1e-5: return Number(float("infinity"))
         return Number(1 / math.tan(val))
     
     def visit_ArcSinNode(self, node):
         val = self.visit(node.node).value
+        if val < -1 or val > 1: return Number(float("infinity"))       
         return Number(math.asin(val))
     
     def visit_ArcCosNode(self, node):
         val = self.visit(node.node).value
+        if val < -1 or val > 1: return Number(float("infinity"))       
         return Number(math.acos(val))
     
     def visit_ArcTanNode(self, node):

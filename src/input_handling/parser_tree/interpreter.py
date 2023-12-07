@@ -98,7 +98,7 @@ class Interpreter:
             return Number(math.sqrt(val))
         else:
             return Number(float("infinity"))
-            # raise Exception("Error: x must be a non-negative value")
+
 
     def visit_SinNode(self,node):
         val = self.visit(node.node).value

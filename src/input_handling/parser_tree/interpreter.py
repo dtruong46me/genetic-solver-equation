@@ -120,10 +120,12 @@ class Interpreter:
     
     def visit_ArcSinNode(self, node):
         val = self.visit(node.node).value
+        if val < -1 or val > 1: return Number(float("infinity"))       
         return Number(math.asin(val))
     
     def visit_ArcCosNode(self, node):
         val = self.visit(node.node).value
+        if val < -1 or val > 1: return Number(float("infinity"))       
         return Number(math.acos(val))
     
     def visit_ArcTanNode(self, node):

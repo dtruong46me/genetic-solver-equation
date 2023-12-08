@@ -69,20 +69,20 @@ class SolverGUI:
         )
 
         # "Setting" BUTTON
-        self.setting_img = PhotoImage(
-            file=self.relative_to_assets("btn__setting.png"))
-        self.setting_btn = Button(
-            image=self.setting_img,
+        self.advance_img = PhotoImage(
+            file=self.relative_to_assets("btn__advance_mode.png"))
+        self.advance_btn = Button(
+            image=self.advance_img,
             borderwidth=0,
             highlightthickness=0,
-            command=self.handle_setting,
+            command=self.handle_advance,
             relief="flat"
         )
-        self.setting_btn.place(
-            x=820.0,
-            y=15.0,
-            width=125.0,
-            height=52.0
+        self.advance_btn.place(
+            x=810.0,
+            y=36.0,
+            width=117.0,
+            height=42.0
         )
 
         # Entry input background
@@ -169,8 +169,14 @@ class SolverGUI:
         self.backhome_gui = MenuGUI(self.window)
         self.current_gui = self.backhome_gui
 
-    def handle_setting(self):
-        print()
+    def handle_advance(self):
+        self.current_gui = None
+        for widget in self.window.winfo_children():
+            widget.destroy()
+
+        from advance_solver import AdvanceSolverGUI
+        self.backhome_gui = AdvanceSolverGUI(self.window)
+        self.current_gui = self.backhome_gui
 
     def relative_to_assets(self, path: str) -> Path:
         return self.assets_path / Path(path)

@@ -7,7 +7,7 @@ from gui_result import ResultGUI
 
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Toplevel
 
-class SolverGUI:
+class AdvanceSolverGUI:
     def __init__(self, window) -> None:
         # Handle assets file path
         self.output_path = Path(__file__).parent
@@ -69,20 +69,20 @@ class SolverGUI:
         )
 
         # "Setting" BUTTON
-        self.setting_img = PhotoImage(
+        self.normal_mode_img = PhotoImage(
             file=self.relative_to_assets("btn__normal.png"))
         self.setting_btn = Button(
-            image=self.setting_img,
+            image=self.normal_mode_img,
             borderwidth=0,
             highlightthickness=0,
-            command=self.handle_setting,
+            command=self.handle_normal_mode,
             relief="flat"
         )
         self.setting_btn.place(
-            x=820.0,
-            y=15.0,
-            width=125.0,
-            height=52.0
+            x=810.0,
+            y=36.0,
+            width=117.0,
+            height=42.0
         )
 
         # Entry input background
@@ -111,13 +111,21 @@ class SolverGUI:
         self.entry.bind("<Return>", lambda event: self.handle_submit())
         self.entry.focus_set()
 
+        self.custom_range_bg = PhotoImage(
+            file=self.relative_to_assets("custom_range.png"))
+        self.custom_range = self.canvas.create_image(
+            499.0,
+            339.0,
+            image=self.custom_range_bg
+        )
+
         # Min Range Entry
         self.min_range_entry = Entry(
             bd=0,
             bg="#FFFFFF",
             fg="#031F4B",
             highlightthickness=0,
-            font=("Consolas", 16),
+            font=("Consolas", 14),
         )
         self.min_range_entry.place(
             x=502.0,
@@ -129,10 +137,10 @@ class SolverGUI:
         # Max Range Entry
         self.max_range_entry = Entry(
             bd=0,
-            bg="#F0FF0F",
+            bg="#FFFFFF",
             fg="#031F4B",
             highlightthickness=0,
-            font=("Consolas", 16),
+            font=("Consolas", 14),
         )
         self.max_range_entry.place(
             x=595.0,
@@ -172,6 +180,7 @@ class SolverGUI:
         max_range = 1e5
         min_range = self.min_range_entry.get()
         max_range = self.max_range_entry.get()
+
         input_data = self.entry.get()
         output_data = ""
         exc_time = ""
@@ -181,7 +190,7 @@ class SolverGUI:
         from object.solver import Solver
 
         if input_data != "":
-            solver = Solver(equation=input_data)
+            solver = Solver(equation=input_data, min_range=min_range, max_range=max_range)
 
             results = solver.solve()
 
@@ -203,15 +212,20 @@ class SolverGUI:
         self.backhome_gui = MenuGUI(self.window)
         self.current_gui = self.backhome_gui
 
-    def handle_setting(self):
-        print()
+    def handle_normal_mode(self):
+        self.current_gui = None
+        for widget in self.window.winfo_children():
+            widget.destroy()
+
+        from gui_solver import SolverGUI
+        self.backhome_gui = SolverGUI(self.window)
+        self.current_gui = self.backhome_gui
 
     def relative_to_assets(self, path: str) -> Path:
         return self.assets_path / Path(path)
     
-
 if __name__ == '__main__':
     window = Tk()
-    menu = SolverGUI(window)
+    menu = AdvanceSolverGUI(window)
     window.resizable(False, False)
     window.mainloop()

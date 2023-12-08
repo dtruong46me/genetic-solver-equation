@@ -68,7 +68,7 @@ class SolverGUI:
             height=52.0
         )
 
-        # "Setting" BUTTON
+        # "Advance" BUTTON
         self.advance_img = PhotoImage(
             file=self.relative_to_assets("btn__advance_mode.png"))
         self.advance_btn = Button(

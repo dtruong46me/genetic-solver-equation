@@ -108,9 +108,7 @@ class AdvanceSolverGUI:
             width=571.0,
             height=52.0
         )
-        self.entry.bind("<Return>", lambda event: self.handle_submit())
-        self.entry.focus_set()
-
+        
         self.custom_range_bg = PhotoImage(
             file=self.relative_to_assets("custom_range.png"))
         self.custom_range = self.canvas.create_image(
@@ -126,6 +124,7 @@ class AdvanceSolverGUI:
             fg="#031F4B",
             highlightthickness=0,
             font=("Consolas", 14),
+            justify="center",
         )
         self.min_range_entry.place(
             x=502.0,
@@ -141,6 +140,7 @@ class AdvanceSolverGUI:
             fg="#031F4B",
             highlightthickness=0,
             font=("Consolas", 14),
+            justify="center"
         )
         self.max_range_entry.place(
             x=595.0,
@@ -148,6 +148,9 @@ class AdvanceSolverGUI:
             width=67.0,
             height=22.0
         )
+
+        self.max_range_entry.bind("<Return>", lambda event: self.handle_submit())
+        self.entry.focus_set()
 
         # "Submit" BUTTON
         self.submit_img = PhotoImage(
@@ -190,6 +193,9 @@ class AdvanceSolverGUI:
         from object.solver import Solver
 
         if input_data != "":
+            min_range = float(min_range)
+            max_range = float(max_range)
+
             solver = Solver(equation=input_data, min_range=min_range, max_range=max_range)
 
             results = solver.solve()
@@ -220,6 +226,9 @@ class AdvanceSolverGUI:
         from gui_solver import SolverGUI
         self.backhome_gui = SolverGUI(self.window)
         self.current_gui = self.backhome_gui
+    
+    def handle_exit(self):
+        self.window.destroy()
 
     def relative_to_assets(self, path: str) -> Path:
         return self.assets_path / Path(path)

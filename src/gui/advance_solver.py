@@ -7,7 +7,7 @@ from gui_result import ResultGUI
 
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Toplevel
 
-class SolverGUI:
+class AdvanceSolverGUI:
     def __init__(self, window) -> None:
         # Handle assets file path
         self.output_path = Path(__file__).parent
@@ -35,7 +35,7 @@ class SolverGUI:
 
         # HelaX LOGO
         self.logo_img = PhotoImage(
-            file=self.relative_to_assets("helax__logo.png"))
+            file=self.relative_to_assets("helax__logo_advance.png"))
         self.helax_logo = self.canvas.create_image(
             501.0,
             126.0,
@@ -68,17 +68,17 @@ class SolverGUI:
             height=52.0
         )
 
-        # "Advance" BUTTON
-        self.advance_img = PhotoImage(
-            file=self.relative_to_assets("btn__advance_mode.png"))
-        self.advance_btn = Button(
-            image=self.advance_img,
+        # "Setting" BUTTON
+        self.normal_mode_img = PhotoImage(
+            file=self.relative_to_assets("btn__normal.png"))
+        self.setting_btn = Button(
+            image=self.normal_mode_img,
             borderwidth=0,
             highlightthickness=0,
-            command=self.handle_advance,
+            command=self.handle_normal_mode,
             relief="flat"
         )
-        self.advance_btn.place(
+        self.setting_btn.place(
             x=810.0,
             y=36.0,
             width=117.0,
@@ -108,7 +108,48 @@ class SolverGUI:
             width=571.0,
             height=52.0
         )
-        self.entry.bind("<Return>", lambda event: self.handle_submit())
+        
+        self.custom_range_bg = PhotoImage(
+            file=self.relative_to_assets("custom_range.png"))
+        self.custom_range = self.canvas.create_image(
+            499.0,
+            339.0,
+            image=self.custom_range_bg
+        )
+
+        # Min Range Entry
+        self.min_range_entry = Entry(
+            bd=0,
+            bg="#FFFFFF",
+            fg="#031F4B",
+            highlightthickness=0,
+            font=("Consolas", 14),
+            justify="center",
+        )
+        self.min_range_entry.place(
+            x=502.0,
+            y=323.0,
+            width=67.0,
+            height=22.0
+        )
+
+        # Max Range Entry
+        self.max_range_entry = Entry(
+            bd=0,
+            bg="#FFFFFF",
+            fg="#031F4B",
+            highlightthickness=0,
+            font=("Consolas", 14),
+            justify="center"
+        )
+        self.max_range_entry.place(
+            x=595.0,
+            y=323.0,
+            width=67.0,
+            height=22.0
+        )
+
+        self.max_range_entry.bind("<Return>", lambda event: self.handle_submit())
         self.entry.focus_set()
 
         # "Submit" BUTTON
@@ -123,7 +164,7 @@ class SolverGUI:
         )
         self.submit_btn.place(
             x=426.0,
-            y=335.0,
+            y=364.0,
             width=147.0,
             height=56.0
         )
@@ -138,6 +179,11 @@ class SolverGUI:
         )
 
     def handle_submit(self):
+        min_range = -1e5
+        max_range = 1e5
+        min_range = self.min_range_entry.get()
+        max_range = self.max_range_entry.get()
+
         input_data = self.entry.get()
         output_data = ""
         exc_time = ""
@@ -147,7 +193,10 @@ class SolverGUI:
         from object.solver import Solver
 
         if input_data != "":
-            solver = Solver(equation=input_data)
+            min_range = float(min_range)
+            max_range = float(max_range)
+
+            solver = Solver(equation=input_data, min_range=min_range, max_range=max_range)
 
             results = solver.solve()
 
@@ -169,21 +218,23 @@ class SolverGUI:
         self.backhome_gui = MenuGUI(self.window)
         self.current_gui = self.backhome_gui
 
-    def handle_advance(self):
+    def handle_normal_mode(self):
         self.current_gui = None
         for widget in self.window.winfo_children():
             widget.destroy()
 
-        from advance_solver import AdvanceSolverGUI
-        self.backhome_gui = AdvanceSolverGUI(self.window)
+        from gui_solver import SolverGUI
+        self.backhome_gui = SolverGUI(self.window)
         self.current_gui = self.backhome_gui
+    
+    def handle_exit(self):
+        self.window.destroy()
 
     def relative_to_assets(self, path: str) -> Path:
         return self.assets_path / Path(path)
     
-
 if __name__ == '__main__':
     window = Tk()
-    menu = SolverGUI(window)
+    menu = AdvanceSolverGUI(window)
     window.resizable(False, False)
     window.mainloop()

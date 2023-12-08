@@ -71,21 +71,21 @@ class ResultGUI:
             height=52.0
         )
 
-        # "Setting" BUTTON
-        self.setting_img = PhotoImage(
-            file=self.relative_to_assets("btn__setting.png"))
-        self.setting_btn = Button(
-            image=self.setting_img,
+        # "Advance" BUTTON
+        self.advance_img = PhotoImage(
+            file=self.relative_to_assets("btn__advance_mode.png"))
+        self.advance_btn = Button(
+            image=self.advance_img,
             borderwidth=0,
             highlightthickness=0,
-            command=self.handle_setting,
+            command=self.handle_advance,
             relief="flat"
         )
-        self.setting_btn.place(
-            x=820.0,
-            y=15.0,
-            width=125.0,
-            height=52.0
+        self.advance_btn.place(
+            x=810.0,
+            y=36.0,
+            width=117.0,
+            height=42.0
         )
 
         # Result Frame
@@ -148,6 +148,23 @@ class ResultGUI:
             font=("Consolas Bold", 16 * -1)
         )
 
+        # "Exit" BUTTON
+        self.exit_big_img = PhotoImage(
+            file=self.relative_to_assets("btn__exit_big.png"))
+        self.exit_big_btn = Button(
+            image=self.exit_big_img,
+            borderwidth=0,
+            highlightthickness=0,
+            command=self.handle_exit,
+            relief="flat"
+        )
+        self.exit_big_btn.place(
+            x=290.5,
+            y=506.0,
+            width=123.0,
+            height=47.0
+        )
+
         # "Visualize" BUTTON
         self.viz_img = PhotoImage(
             file=self.relative_to_assets("btn__visualize.png"))
@@ -159,7 +176,7 @@ class ResultGUI:
             relief="flat"
         )
         self.viz_btn.place(
-            x=364.0,
+            x=586.5,
             y=506.0,
             width=123.0,
             height=47.0
@@ -176,7 +193,7 @@ class ResultGUI:
             relief="flat"
         )
         self.continue_btn.place(
-            x=513.0,
+            x=438.5,
             y=506.0,
             width=123.0,
             height=47.0
@@ -194,8 +211,17 @@ class ResultGUI:
         self.backhome_gui = MenuGUI(self.window)
         self.current_gui = self.backhome_gui
 
-    def handle_setting(self):
-        print()
+    def handle_advance(self):
+        self.current_gui = None
+        for widget in self.window.winfo_children():
+            widget.destroy()
+
+        from advance_solver import AdvanceSolverGUI
+        self.backhome_gui = AdvanceSolverGUI(self.window)
+        self.current_gui = self.backhome_gui
+
+    def handle_exit(self):
+        self.window.destroy()
 
     def handle_visualize(self):
         path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))

@@ -59,30 +59,29 @@ class Interpreter:
                         try:
                             return Number(base ** pow)
                         except Exception:
-                            return Number(float("infinity"))
+
+                            raise Exception("Error")
                 else:
                     if base < 0:
-                        # raise Exception("Error: Runtime math error")
-                        return Number(float("infinity"))    
+                        raise Exception("Error")  
                     else:
                         try:
                             return Number(base ** pow)
                         except Exception:
-                            return Number(float("infinity"))                  
+                            raise Exception("Error")                  
             else:
                 if base < 0:
-                    # raise Exception("Error: Runtime math error")
-                    return Number(float("infinity"))
+                    raise Exception("Error")  
                 else:
                     try:
                         return Number(base ** pow)
                     except Exception:
-                        return Number(float("infinity"))
+                        raise Exception("Error")  
         else:
             try:
                 return Number(base ** pow)
             except Exception:
-                return Number(float("infinity"))
+                raise Exception("Error")  
         
     def visit_AbsoluteValueNode(self, node):
         check_num = self.visit(node.node).value
@@ -97,37 +96,37 @@ class Interpreter:
         if val >= 0:
             return Number(math.sqrt(val))
         else:
-            return Number(float("infinity"))
+            raise Exception("Error")  
 
 
     def visit_SinNode(self,node):
         val = self.visit(node.node).value
-        if val > 1e5 or val < -1e-5: return Number(float("infinity"))
+        if val > 1e5 or val < -1e-5: raise Exception("Error")
         return Number(math.sin(val))
     
     def visit_CosNode(self,node):
         val = self.visit(node.node).value
-        if val > 1e5 or val < -1e-5: return Number(float("infinity"))
+        if val > 1e5 or val < -1e-5: raise Exception("Error")
         return Number(math.sin((math.pi/2) - val))
     
     def visit_TanNode(self,node):
         val = self.visit(node.node).value
-        if val > 1e5 or val < -1e-5: return Number(float("infinity"))
+        if val > 1e5 or val < -1e-5: raise Exception("Error")
         return Number(math.tan(val))
     
     def visit_CotNode(self,node):
         val = self.visit(node.node).value
-        if val > 1e5 or val < -1e-5: return Number(float("infinity"))
+        if val > 1e5 or val < -1e-5: raise Exception("Error")
         return Number(1 / math.tan(val))
     
     def visit_ArcSinNode(self, node):
         val = self.visit(node.node).value
-        if val < -1 or val > 1: return Number(float("infinity"))       
+        if val < -1 or val > 1: raise Exception("Error")    
         return Number(math.asin(val))
     
     def visit_ArcCosNode(self, node):
         val = self.visit(node.node).value
-        if val < -1 or val > 1: return Number(float("infinity"))       
+        if val < -1 or val > 1: raise Exception("Error")   
         return Number(math.acos(val))
     
     def visit_ArcTanNode(self, node):
@@ -144,7 +143,9 @@ class Interpreter:
     
     def visit_LnNode(self,node):
         val = self.visit(node.node).value
-        return Number(math.log(val)) if val > 0 else Number(float("infinity"))
+        if val > 0: return Number(math.log(val)) 
+        else:
+            raise Exception("Error")
     
     def visit_CommaNode(self, node):
         val1 = self.visit(node.node_a).value
@@ -155,15 +156,15 @@ class Interpreter:
         try:
             arg = self.visit_CommaNode(node.node)
             if arg[1] <=0 or arg[1] == 1:
-                return Number(float("infinity")) 
+                raise Exception("Error")
             else:
                 if arg[0] <= 0:
-                    return Number(float("infinity"))
+                    raise Exception("Error")
                 return Number(math.log(arg[0], arg[1]))
         except AttributeError:
             val = self.visit(node.node).value
             if val <= 0:
-                return Number(float("infinity"))
+                raise Exception("Error")
             return Number(math.log(val, 10))
 
     def visit_FactNode(self,node):
@@ -177,7 +178,7 @@ class Interpreter:
             root = arg[1] 
                
             if root <= 0:
-                return Number(float('infinity'))
+                raise Exception("Error")
             else:
                 if root % 2 == 0:
                     if val < 0:
@@ -195,6 +196,5 @@ class Interpreter:
         except AttributeError:
             val = self.visit(node.node).value
             if val < 0:
-                return Number(float("infinity"))
-                # raise Exception("Error: Even n-th root only accept non-negative value")
+                raise Exception("Error")
             return Number(math.sqrt(val)) 

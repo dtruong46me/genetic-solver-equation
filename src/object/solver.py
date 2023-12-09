@@ -81,28 +81,31 @@ class Solver:
 
     # evaluating the fitness/accuracy of a given genome
     def fitness_evaluate(self, genome):
-        self.counter += 1
-        input_num = self.binary32_to_float(genome)
-        splited_eq = self.equation.replace('x', format(input_num, '.5f')).split('=')
-        if len(splited_eq) == 1: 
-            left_side = splited_eq[0].strip()
-            right_side = '0'
-        else:
-            left_side, right_side = splited_eq[0].strip(), splited_eq[1].strip()
+        try:
+            self.counter += 1
+            input_num = self.binary32_to_float(genome)
+            splited_eq = self.equation.replace('x', format(input_num, '.5f')).split('=')
+            if len(splited_eq) == 1: 
+                left_side = splited_eq[0].strip()
+                right_side = '0'
+            else:
+                left_side, right_side = splited_eq[0].strip(), splited_eq[1].strip()
     
-        leftLexer, rightLexer = Lexer(left_side), Lexer(right_side)
-        left_tokens, right_tokens = leftLexer.generate_tokens(), rightLexer.generate_tokens()
-        left_parser, right_parser = Parser(left_tokens), Parser(right_tokens)
-        leftTree, rightTree = left_parser.parse(), right_parser.parse()
-        left_interpreter, right_interpreter = Interpreter(), Interpreter()
-        left_value, right_value = left_interpreter.visit(leftTree), right_interpreter.visit(rightTree)
+            leftLexer, rightLexer = Lexer(left_side), Lexer(right_side)
+            left_tokens, right_tokens = leftLexer.generate_tokens(), rightLexer.generate_tokens()
+            left_parser, right_parser = Parser(left_tokens), Parser(right_tokens)
+            leftTree, rightTree = left_parser.parse(), right_parser.parse()
+            left_interpreter, right_interpreter = Interpreter(), Interpreter()
+            left_value, right_value = left_interpreter.visit(leftTree), right_interpreter.visit(rightTree)
           
-        distance = abs(left_value.value  - right_value.value)
+            distance = abs(left_value.value  - right_value.value)
         
-        if  math.isnan(distance) or input_num > self.max_range or input_num < self.min_range:
+            if  math.isnan(distance) or input_num > self.max_range or input_num < self.min_range:
+                return 0
+        
+            return 1/ (1 + distance)
+        except Exception:
             return 0
-        
-        return 1/ (1 + distance)
     
     
     # return the value of the left hand side 

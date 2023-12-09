@@ -101,22 +101,22 @@ class Interpreter:
 
     def visit_SinNode(self,node):
         val = self.visit(node.node).value
-        if val > 1e5 or val < -1e-5: raise Exception("Error")
+        if val > 1e5 or val < -1e5: raise Exception("Error")
         return Number(math.sin(val))
     
     def visit_CosNode(self,node):
         val = self.visit(node.node).value
-        if val > 1e5 or val < -1e-5: raise Exception("Error")
+        if val > 1e5 or val < -1e5: raise Exception("Error")
         return Number(math.sin((math.pi/2) - val))
     
     def visit_TanNode(self,node):
         val = self.visit(node.node).value
-        if val > 1e5 or val < -1e-5: raise Exception("Error")
+        if val > 1e5 or val < -1e5: raise Exception("Error")
         return Number(math.tan(val))
     
     def visit_CotNode(self,node):
         val = self.visit(node.node).value
-        if val > 1e5 or val < -1e-5: raise Exception("Error")
+        if val > 1e5 or val < -1e5: raise Exception("Error")
         return Number(1 / math.tan(val))
     
     def visit_ArcSinNode(self, node):

@@ -132,14 +132,14 @@ class Solver:
         if not self.elite:           
             if len(self.next_gen) == 0:
                 for pop in range(int(self.population / 2)):
-                    child_1, child_2 = self.cross_over(self.random_selection(), self.self.random_selection())
+                    child_1, child_2 = self.cross_over(self.random_selection(), self.random_selection())
                     child_1, child_2 = self.mutate(child_1), self.mutate(child_2)
                     self.next_gen.append(child_1)
                     self.next_gen.append(child_2)
             else:
                 for pop in range(int(self.population / 2)):
                     child_1, child_2 = self.cross_over(self.random_selection(), self.random_selection())
-                    child_1, child_2 = self.mutate(child_1)
+                    child_1, child_2 = self.mutate(child_1), self.mutate(child_2)
                     self.next_gen[pop * 2] = child_1
                     self.next_gen[pop * 2 + 1] = child_2
         else:

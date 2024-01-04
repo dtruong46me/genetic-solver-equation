@@ -86,7 +86,7 @@ flowchart TD;
 
 - Execute program
     ```
-    python main/main.py
+    python run.py
     ```
 
 ## Contributions

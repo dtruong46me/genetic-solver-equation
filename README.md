@@ -38,7 +38,7 @@ $f(x) = x^2 + log_{50}(\frac{x}{5} + \frac{1}{x}) + sin(x^2+1) - 5.5x$
 |`cos(x)`|Return the cosine of a number `x`|
 |`tan(x)`|Return the tangent of a number `x`|
 |`cot(x)`|Return the cotangent of a number `x`|
-|`log(x, base: optional)`|Return the logarithm of a number `x` to `base`. The default `base` is 10|
+|`log(x, base)`|Return the logarithm of a number `x` to `base`. The default `base` is 10|
 |`arcsin(x)`|Return the arc sine of a number `x`|
 |`arccos(x)`|Return the arc cosine of a number `x`|
 |`arctan(x)`|Return the arc tangent of a number `x`|
@@ -86,7 +86,7 @@ flowchart TD;
 
 - Execute program
     ```
-    python main/main.py
+    python run.py
     ```
 
 ## Contributions
